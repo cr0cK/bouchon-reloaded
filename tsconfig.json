@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "paths": {
+      "@libs/*": ["libs/*"],
+      "@@types/*": ["types/*"]
+    },
+    "target": "ES2019",
+    "sourceMap": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "declaration": false,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "removeComments": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "lib": ["esnext", "esnext.asynciterable"],
+    "types": ["node", "jest"]
+  },
+  "exclude": [
+    "dist",
+    "trash",
+    "node_modules"
+  ]
+}

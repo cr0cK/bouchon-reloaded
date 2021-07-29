@@ -1,0 +1,40 @@
+{
+  "extends": ["tslint:latest", "tslint-react-hooks", "tslint-config-prettier"],
+  "rules": {
+    "member-access": false,
+    "member-ordering": false,
+    "no-bitwise": false,
+    "no-empty-interface": false,
+    "no-implicit-dependencies": [
+      true,
+      "dev",
+      [
+        // Typescript aliases
+        "@app",
+        "@libs",
+        "@client",
+        "@server",
+        "@mocks",
+        "@styles",
+        "@@types",
+        // dep of AntDesign datepicker
+        "rc-menu",
+        "rc-picker",
+        // dep of AntDesign
+        "@ant-design/icons",
+        // dep of mobx-react
+        "mobx-react-lite"
+      ]
+    ],
+    "no-submodule-imports": false,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "array-type": [true, "array-simple"],
+    "quotemark": false,
+    "semicolon": [true, "never"],
+    "react-hooks-nesting": "warning"
+  },
+  "linterOptions": {
+    "exclude": ["src/server/graphql/typeDefs/types.ts"]
+  }
+}
