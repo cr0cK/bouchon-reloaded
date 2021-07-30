@@ -1,9 +1,15 @@
 import { Store } from './store'
 import { createAction } from './store/action'
 import { createReducers } from './store/reducer'
-import { Reducers } from './store/types'
 
-const store = new Store({
+interface MyState {
+  users: Array<{ id: number; name: string }>
+  settings: {
+    languages: string[]
+  }
+}
+
+const store = new Store<MyState>({
   users: [
     {
       id: 1,
@@ -15,27 +21,32 @@ const store = new Store({
     }
   ],
   settings: {
-    language: ['fr', 'en']
+    languages: ['fr', 'en']
   }
 })
 
 const addLanguage = createAction('Add language')
-const removeLanguage = createAction('Remove language')
+// const removeLanguage = createAction('Remove language')
 
-const reducers = createReducers([
+const reducers = createReducers<MyState>([
   [
     addLanguage,
-    () => {
-      return { id: 1 }
-    }
-  ],
-
-  [
-    removeLanguage,
-    () => {
-      return { id: 1 }
+    state => {
+      return {
+        ...state,
+        settings: {
+          languages: ['fr', 'en', 'jp']
+        }
+      }
     }
   ]
+
+  // [
+  //   removeLanguage,
+  //   () => {
+  //     return { id: 1 }
+  //   }
+  // ]
 ])
 
 store.registerReducers(reducers)

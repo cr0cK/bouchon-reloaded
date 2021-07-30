@@ -3,19 +3,19 @@ import { Action, Reducers, State } from './types'
 
 const logger = newLogger('Store')
 
-export class Store {
-  private _state: State = {}
-  private _reducers: Reducers = new Map()
+export class Store<S extends State> {
+  private _state: S
+  private _reducers: Reducers<S> = new Map()
 
-  constructor(state: State) {
+  constructor(state: S) {
     this._state = state
   }
 
-  getState(): State {
+  getState(): S {
     return this._state
   }
 
-  registerReducers(reducers: Reducers): this {
+  registerReducers(reducers: Reducers<S>): this {
     this._reducers = reducers
     return this
   }
@@ -31,7 +31,7 @@ export class Store {
 
     logger.debug(`Dispatching action "${name}"`)
 
-    this._state = reducer()
+    this._state = reducer(this._state)
 
     return this
   }

@@ -7,6 +7,6 @@ export type Action = () => {
   id: ActionId
 }
 
-export type Reducer = () => State
+export type Reducer<S extends State> = (state: S) => S
 
-export type Reducers = Map<ActionId, Reducer>
+export type Reducers<S extends State> = Map<ActionId, Reducer<S>>

@@ -1,11 +1,11 @@
-import { Action, Reducer, Reducers } from './types'
+import { Action, Reducer, Reducers, State } from './types'
 
-export function createReducers(
-  reducerTuples: Array<[Action, Reducer]>
-): Reducers {
+export function createReducers<S extends State>(
+  reducerTuples: Array<[Action, Reducer<S>]>
+): Reducers<S> {
   const reducers = reducerTuples.reduce((acc, [action, reducer]) => {
     return acc.set(action().id, reducer)
-  }, new Map() as Reducers)
+  }, new Map() as Reducers<S>)
 
   return reducers
 }
