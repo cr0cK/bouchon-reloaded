@@ -1,36 +1,46 @@
 import { newLogger } from '../libs/logger'
-import { Reducers, State } from './types'
+import { Reducer, Reducers, State } from '../types'
 
 const logger = newLogger('Store')
 
-export class Store<S extends State> {
-  private _state: S
-  private _reducers: Reducers<S> = new Map()
+export class Store<
+  TState extends State,
+  TActionEnum extends string,
+  TActionsRecord extends Record<TActionEnum, object>
+> {
+  private _state: TState
+  private _reducers: Reducers<TState, TActionEnum, TActionsRecord> = new Map()
 
-  constructor(state: S) {
+  constructor(state: TState) {
     this._state = state
   }
 
-  getState(): S {
+  getState(): TState {
     return this._state
   }
 
-  registerReducers(reducers: Reducers<S>): this {
-    this._reducers = reducers
+  registerReducer<TActionEnum extends keyof TActionsRecord>(
+    actionName: TActionEnum,
+    reducerFn: Reducer<TState, any>
+  ): this {
+    this._reducers.set(actionName, reducerFn)
     return this
   }
 
-  dispatch(action: { [name: string]: any }): this {
-    const reducer = this._reducers.get(action.name)
+  dispatch<AE extends keyof TActionsRecord>(
+    actionName: AE,
+    actionPayload: TActionsRecord[AE]
+  ): this {
+    const reducer = this._reducers.get(actionName)
 
     if (!reducer) {
-      logger.debug(`No reducer found for action "${action.name}"`)
+      logger.debug(`No reducer found for action "${actionName}"`)
       return this
     }
 
-    logger.debug(`Dispatching action "${action.name}"`)
+    logger.debug(`Dispatching action "${actionName}"`)
 
-    this._state = reducer(this._state)
+    this._state = reducer(this._state, actionPayload)
 
     return this
   }
