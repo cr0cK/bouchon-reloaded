@@ -1,15 +1,9 @@
-import { Store } from './store'
-import { createAction } from './store/action'
+import { MyAction2, MyActionEnum } from './sample/actions'
+import { MyStore } from './sample/store'
 import { createReducers } from './store/reducer'
+import { createStateMachine } from './store'
 
-interface MyState {
-  users: Array<{ id: number; name: string }>
-  settings: {
-    languages: string[]
-  }
-}
-
-const store = new Store<MyState>({
+const { createAction } = createStateMachine<MyStore, MyActionEnum, MyAction2>({
   users: [
     {
       id: 1,
@@ -25,12 +19,25 @@ const store = new Store<MyState>({
   }
 })
 
-const addLanguage = createAction('Add language')
+const addUser = createAction(MyActionEnum.UserAdd)
+
+addUser({
+  id: 1,
+  name: 'John',
+  age: 42
+})
+
+const removeUser = createAction(MyActionEnum.UserRemove)
+
+removeUser({
+  id: 1
+})
+
 // const removeLanguage = createAction('Remove language')
 
-const reducers = createReducers<MyState>([
+const reducers = createReducers<MyStore>([
   [
-    addLanguage,
+    addUser,
     state => {
       return {
         ...state,
@@ -49,8 +56,8 @@ const reducers = createReducers<MyState>([
   // ]
 ])
 
-store.registerReducers(reducers)
+// store.registerReducers(reducers)
 
-store.dispatch(addLanguage)
+// store.dispatch(addUser)
 
-console.log('state?', store.getState())
+// console.log('state?', store.getState())

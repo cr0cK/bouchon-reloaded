@@ -1,38 +1,19 @@
-import { newLogger } from '../libs/logger/index.'
-import { Action, Reducers, State } from './types'
+import { Store } from './store'
+import { State } from './types'
 
-const logger = newLogger('Store')
+export function createStateMachine<
+  S extends State,
+  ActionEnum extends string,
+  Actions extends Record<ActionEnum, object>
+>(state: S) {
+  const store = new Store<S>(state)
 
-export class Store<S extends State> {
-  private _state: S
-  private _reducers: Reducers<S> = new Map()
-
-  constructor(state: S) {
-    this._state = state
-  }
-
-  getState(): S {
-    return this._state
-  }
-
-  registerReducers(reducers: Reducers<S>): this {
-    this._reducers = reducers
-    return this
-  }
-
-  dispatch(action: Action): this {
-    const { name, id } = action()
-    const reducer = this._reducers.get(id)
-
-    if (!reducer) {
-      logger.debug(`No reducer found for action "${name}"`)
-      return this
+  return {
+    createAction<AE extends keyof Actions>(actionName: AE) {
+      return (actionPayload: Actions[AE]) => {
+        // store.dispatch()
+        // TODO
+      }
     }
-
-    logger.debug(`Dispatching action "${name}"`)
-
-    this._state = reducer(this._state)
-
-    return this
   }
 }
