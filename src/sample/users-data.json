@@ -1,0 +1,15 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John"
+    },
+    {
+      "id": 2,
+      "name": "Alice"
+    }
+  ],
+  "settings": {
+    "languages": ["fr", "en"]
+  }
+}

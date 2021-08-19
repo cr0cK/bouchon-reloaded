@@ -1,13 +1,15 @@
-import { Action, Route, Selector2, SelectorFn, State } from '../types'
+import { State, Action, SelectorFn, Selector2, Route } from '../types'
 import { Store } from './store'
 
-export function createStateMachine<
+export async function createCork<
   TState extends State,
   TActionEnum extends string,
   TActionUnion extends Action,
   TActionsRecord extends Record<TActionEnum, TActionUnion>
->(state: TState) {
-  const store = new Store<TState, TActionEnum, TActionsRecord>(state)
+>(initialState: TState | Promise<TState>) {
+  const store = new Store<TState, TActionEnum, TActionsRecord>(
+    await initialState
+  )
 
   return {
     /**
@@ -36,7 +38,7 @@ export function createStateMachine<
       selectorFn: SelectorFn<TState, TActionUnion, TSelectorReturn>
     ): Selector2<TState, TActionUnion, TSelectorReturn> {
       return (action: TActionUnion) => {
-        return selectorFn(state, action)
+        return selectorFn(store.getState(), action)
       }
     },
 

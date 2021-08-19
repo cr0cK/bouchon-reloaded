@@ -1,7 +1,32 @@
 import { MyActionEnum, MyActionsRecord } from '../sample/actions'
 import { MyActionUnion } from '../sample/actions'
 import { MyStore } from '../sample/store'
-import { createStateMachine } from '../store'
+import { createCork } from '../libs/store'
+import { parseCorkData } from '../libs/store/init'
+
+// const {
+//   createAction,
+//   registerReducer,
+//   createSelector,
+//   createRoute,
+//   createEndPoint
+// } = createCork<MyStore, MyActionEnum, MyActionUnion, MyActionsRecord>({
+//   users: [
+//     {
+//       id: 1,
+//       name: 'John'
+//     },
+//     {
+//       id: 2,
+//       name: 'Alice'
+//     }
+//   ],
+//   settings: {
+//     languages: ['fr', 'en']
+//   }
+// })
+
+// const r = parseJSONAsStore<MyStore>('users-data.json')
 
 const {
   createAction,
@@ -9,21 +34,9 @@ const {
   createSelector,
   createRoute,
   createEndPoint
-} = createStateMachine<MyStore, MyActionEnum, MyActionUnion, MyActionsRecord>({
-  users: [
-    {
-      id: 1,
-      name: 'John'
-    },
-    {
-      id: 2,
-      name: 'Alice'
-    }
-  ],
-  settings: {
-    languages: ['fr', 'en']
-  }
-})
+} = await createCork<MyStore, MyActionEnum, MyActionUnion, MyActionsRecord>(
+  parseCorkData('users-data.json', 'user-data-json-schema.json')
+)
 
 const addUser = createAction(MyActionEnum.UserAdd)
 const removeUser = createAction(MyActionEnum.UserRemove)
