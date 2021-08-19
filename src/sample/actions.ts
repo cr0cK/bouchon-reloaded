@@ -1,11 +1,11 @@
-import { ActionProps } from '../types'
+import { Action } from '../types'
 
 export enum MyActionEnum {
   UserAdd = 'UserAdd',
   UserRemove = 'UserRemove'
 }
 
-export interface MyActionAddUser extends ActionProps {
+export interface MyActionAddUser extends Action {
   name: MyActionEnum.UserAdd
   parameters: {
     profileId: number
@@ -17,7 +17,7 @@ export interface MyActionAddUser extends ActionProps {
   }
 }
 
-export interface MyActionRemoveUser extends ActionProps {
+export interface MyActionRemoveUser extends Action {
   name: MyActionEnum.UserRemove
   parameters: {
     profileId: number
@@ -27,7 +27,7 @@ export interface MyActionRemoveUser extends ActionProps {
 
 export type MyActionUnion = MyActionAddUser | MyActionRemoveUser
 
-export interface MyActionRecord extends Record<MyActionEnum, MyActionUnion> {
+export interface MyActionsRecord extends Record<MyActionEnum, MyActionUnion> {
   [MyActionEnum.UserAdd]: MyActionAddUser
   [MyActionEnum.UserRemove]: MyActionRemoveUser
 }

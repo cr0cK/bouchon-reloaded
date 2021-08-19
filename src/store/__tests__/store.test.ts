@@ -1,4 +1,4 @@
-import { Store } from '..'
+import { Store } from '../store'
 
 describe('Store', () => {
   describe('getState()', () => {

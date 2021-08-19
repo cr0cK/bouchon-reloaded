@@ -1,21 +1,21 @@
-import { ActionProps, SelectorFn, State } from '../types'
+import { Action, Route, Selector2, SelectorFn, State } from '../types'
 import { Store } from './store'
 
 export function createStateMachine<
   TState extends State,
   TActionEnum extends string,
-  TActionUnion extends ActionProps,
+  TActionUnion extends Action,
   TActionsRecord extends Record<TActionEnum, TActionUnion>
 >(state: TState) {
   const store = new Store<TState, TActionEnum, TActionsRecord>(state)
 
   return {
     /**
-     * Return a function that dispatch the action.
+     * Return a function that dispatchs the action.
      */
     createAction(actionName: keyof TActionsRecord) {
-      return (actionProps: TActionsRecord[TActionEnum]): void => {
-        store.dispatch(actionName, actionProps)
+      return (action: TActionsRecord[TActionEnum]): void => {
+        store.dispatch(actionName, action)
       }
     },
 
@@ -24,10 +24,7 @@ export function createStateMachine<
      */
     registerReducer<TActionEnum_ extends TActionEnum>(
       actionName: TActionEnum_,
-      reducerFn: (
-        state: TState,
-        actionProps: TActionsRecord[TActionEnum_]
-      ) => TState
+      reducerFn: (state: TState, action: TActionsRecord[TActionEnum_]) => TState
     ): void {
       store.registerReducer(actionName, reducerFn)
     },
@@ -37,18 +34,23 @@ export function createStateMachine<
      */
     createSelector<TSelectorReturn>(
       selectorFn: SelectorFn<TState, TActionUnion, TSelectorReturn>
-    ) {
-      return (actionPayload: TActionsRecord[TActionEnum]) => {
-        return {
-          value(): TSelectorReturn {
-            return selectorFn(store.getState(), actionPayload)
-          },
-
-          findOne(key: any, value: any) {
-            // ...
-          }
-        }
+    ): Selector2<TState, TActionUnion, TSelectorReturn> {
+      return (action: TActionUnion) => {
+        return selectorFn(state, action)
       }
+    },
+
+    createEndPoint(
+      endPoint: string,
+      routes: Route<TState, TActionUnion, any>[]
+    ) {
+      // ...
+    },
+
+    createRoute<TSelectorReturn>(
+      route: Route<TState, TActionUnion, TSelectorReturn>
+    ): Route<TState, TActionUnion, TSelectorReturn> {
+      return route
     }
   }
 }

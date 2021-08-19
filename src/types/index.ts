@@ -1,8 +1,12 @@
+/** Helpers */
+
+export type Maybe<T> = T | null
+
 /** State machine */
 
 export type State = Record<string, any>
 
-export interface ActionProps {
+export interface Action {
   name: string
   parameters?: object
   bodyParameters?: object
@@ -11,7 +15,7 @@ export interface ActionProps {
 
 export type Reducer<TState extends State, TActionProps> = (
   state: TState,
-  actionProps: TActionProps
+  action: TActionProps
 ) => TState
 
 export type Reducers<
@@ -22,16 +26,24 @@ export type Reducers<
 
 /** Selectors */
 
-export type SelectorFn<S, AP, R> = (state: S, actionProps: AP) => R
+export type SelectorFn<TState, TActionUnion, TSelectorReturn> = (
+  state: TState,
+  action: TActionUnion
+) => TSelectorReturn
 
-export type Selector<TState, AP, R> = (
-  selectorFn: SelectorFn<TState, AP, R>
-) => R
+export type Selector<TState, TActionUnion, TSelectorReturn> = (
+  selectorFn: SelectorFn<TState, TActionUnion, TSelectorReturn>
+) => TSelectorReturn
+
+export type Selector2<TState, TActionUnion, TSelectorReturn> = (
+  action: TActionUnion
+) => TSelectorReturn
 
 /** Routing */
 
-export type Route<TState, AP, R> = {
+export type Route<TState, TActionUnion, TSelectorReturn> = {
   method: 'GET' | 'POST' | 'PATH' | 'PUT' | 'DELETE' | 'HEAD'
   pathname: string
-  selector: Selector<TState, AP, R>
+  action: Action
+  selector: Selector2<TState, TActionUnion, TSelectorReturn>
 }

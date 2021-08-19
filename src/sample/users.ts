@@ -1,15 +1,15 @@
-import { createEndPoint } from '../functions'
-import { MyActionRecord, MyActionEnum } from '../sample/actions'
+import { MyActionEnum, MyActionsRecord } from '../sample/actions'
+import { MyActionUnion } from '../sample/actions'
 import { MyStore } from '../sample/store'
 import { createStateMachine } from '../store'
-import { MyActionUnion } from './../sample/actions'
 
-const { createAction, registerReducer, createSelector } = createStateMachine<
-  MyStore,
-  MyActionEnum,
-  MyActionUnion,
-  MyActionRecord
->({
+const {
+  createAction,
+  registerReducer,
+  createSelector,
+  createRoute,
+  createEndPoint
+} = createStateMachine<MyStore, MyActionEnum, MyActionUnion, MyActionsRecord>({
   users: [
     {
       id: 1,
@@ -36,28 +36,28 @@ const removeUser = createAction(MyActionEnum.UserRemove)
 //   }
 // })
 
-registerReducer(MyActionEnum.UserAdd, (state, actionProps) => {
+registerReducer(MyActionEnum.UserAdd, (state, action) => {
   return state
 })
 
-registerReducer(MyActionEnum.UserRemove, (state, actionProps) => {
+registerReducer(MyActionEnum.UserRemove, (state, action) => {
   return state
 })
 
-const selectAllUsers = createSelector((state, actionProps) => {
+const selectAllUsers = createSelector((state, action) => {
   return state.users
 })
 
-const selectOneUser = createSelector((state, actionProps) => {
-  switch (actionProps.name) {
-    case MyActionEnum.UserAdd:
-      break
+const selectOneUser = createSelector((state, action) => {
+  switch (action.name) {
+    case MyActionEnum.UserRemove:
+      return selectAllUsers(action).find(
+        user => user.id === action.parameters.id
+      )
 
     default:
-      break
+      return
   }
-
-  return selectAllUsers(state).findOne('id', actionProps.parameters.profileId)
 })
 
 const endPoint = createEndPoint('', [

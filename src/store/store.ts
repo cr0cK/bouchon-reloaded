@@ -29,7 +29,7 @@ export class Store<
 
   dispatch<AE extends keyof TActionsRecord>(
     actionName: AE,
-    actionPayload: TActionsRecord[AE]
+    action: TActionsRecord[AE]
   ): this {
     const reducer = this._reducers.get(actionName)
 
@@ -40,7 +40,7 @@ export class Store<
 
     logger.debug(`Dispatching action "${actionName}"`)
 
-    this._state = reducer(this._state, actionPayload)
+    this._state = reducer(this._state, action)
 
     return this
   }
