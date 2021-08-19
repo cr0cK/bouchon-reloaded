@@ -32,18 +32,19 @@ export type SelectorFn<TState, TActionUnion, TSelectorReturn> = (
 ) => TSelectorReturn
 
 export type Selector<TState, TActionUnion, TSelectorReturn> = (
-  selectorFn: SelectorFn<TState, TActionUnion, TSelectorReturn>
-) => TSelectorReturn
-
-export type Selector2<TState, TActionUnion, TSelectorReturn> = (
   action: TActionUnion
 ) => TSelectorReturn
 
 /** Routing */
 
 export type Route<TState, TActionUnion, TSelectorReturn> = {
-  method: 'GET' | 'POST' | 'PATH' | 'PUT' | 'DELETE' | 'HEAD'
+  method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'HEAD'
   pathname: string
   action: Action
-  selector: Selector2<TState, TActionUnion, TSelectorReturn>
+  selector: Selector<TState, TActionUnion, TSelectorReturn>
+}
+
+export type EndPoint = {
+  pathname: string
+  routes: Array<Route<any, any, any>>
 }

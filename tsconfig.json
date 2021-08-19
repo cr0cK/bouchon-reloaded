@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "baseUrl": "src",
     "paths": {
@@ -22,7 +22,6 @@
     "strictNullChecks": true,
     "outDir": "dist",
     "skipLibCheck": true,
-    "lib": ["esnext", "esnext.asynciterable"],
     "types": ["node", "jest"]
   },
   "exclude": [

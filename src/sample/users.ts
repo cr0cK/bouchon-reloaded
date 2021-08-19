@@ -1,8 +1,10 @@
+import * as path from 'path'
+import { startCork } from '../libs/router'
+import { createCork } from '../libs/store'
+import { parseData } from '../libs/store/init'
 import { MyActionEnum, MyActionsRecord } from '../sample/actions'
 import { MyActionUnion } from '../sample/actions'
 import { MyStore } from '../sample/store'
-import { createCork } from '../libs/store'
-import { parseCorkData } from '../libs/store/init'
 
 // const {
 //   createAction,
@@ -34,8 +36,11 @@ const {
   createSelector,
   createRoute,
   createEndPoint
-} = await createCork<MyStore, MyActionEnum, MyActionUnion, MyActionsRecord>(
-  parseCorkData('users-data.json', 'user-data-json-schema.json')
+} = createCork<MyStore, MyActionEnum, MyActionUnion, MyActionsRecord>(
+  parseData(
+    path.join(__dirname, 'users-data.json'),
+    'user-data-json-schema.json'
+  )
 )
 
 const addUser = createAction(MyActionEnum.UserAdd)
@@ -85,11 +90,11 @@ const endPoint = createEndPoint('', [
   }),
 
   createRoute({
-    method: 'GET',
+    method: 'POST',
     pathname: '/profile/:profileId/users',
     action: addUser,
     selector: selectOneUser
   })
 ])
 
-export default endPoint
+startCork('0.0.0.0', 5000, [endPoint])

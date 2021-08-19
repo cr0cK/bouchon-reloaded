@@ -1,15 +1,14 @@
-import { State, Action, SelectorFn, Selector2, Route } from '../types'
+import { Action, Route, Selector, SelectorFn, State } from '../types'
+import { EndPoint } from './../types/index'
 import { Store } from './store'
 
-export async function createCork<
+export function createCork<
   TState extends State,
   TActionEnum extends string,
   TActionUnion extends Action,
   TActionsRecord extends Record<TActionEnum, TActionUnion>
->(initialState: TState | Promise<TState>) {
-  const store = new Store<TState, TActionEnum, TActionsRecord>(
-    await initialState
-  )
+>(initialState: TState) {
+  const store = new Store<TState, TActionEnum, TActionsRecord>(initialState)
 
   return {
     /**
@@ -36,17 +35,20 @@ export async function createCork<
      */
     createSelector<TSelectorReturn>(
       selectorFn: SelectorFn<TState, TActionUnion, TSelectorReturn>
-    ): Selector2<TState, TActionUnion, TSelectorReturn> {
+    ): Selector<TState, TActionUnion, TSelectorReturn> {
       return (action: TActionUnion) => {
         return selectorFn(store.getState(), action)
       }
     },
 
     createEndPoint(
-      endPoint: string,
+      pathname: string,
       routes: Route<TState, TActionUnion, any>[]
-    ) {
-      // ...
+    ): EndPoint {
+      return {
+        pathname: pathname,
+        routes
+      }
     },
 
     createRoute<TSelectorReturn>(

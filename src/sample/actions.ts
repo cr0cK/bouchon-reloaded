@@ -1,4 +1,4 @@
-import { Action } from '../types'
+import { Action } from '../libs/types'
 
 export enum MyActionEnum {
   UserAdd = 'UserAdd',

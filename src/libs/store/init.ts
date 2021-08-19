@@ -1,29 +1,27 @@
 import * as fs from 'fs'
-import { newLogger } from '../libs/logger'
+import { newLogger } from '../logger'
 
 /**
  * Parse JSON and verify integrify via a JSON schema.
  *
  * Usage:
  *
- * const { ... } = await createCork<...>(
- *   parseCorkData('users-data.json', 'user-data-json-schema.json')
+ * const { ... } = createCork<...>(
+ *   parseData('users-data.json', 'user-data-json-schema.json')
  * )
  */
-export async function parseCorkData<TStore>(
+export function parseData<TStore>(
   dataPathname: string,
   jsonSchemaPathname: string
-): Promise<TStore> {
+): TStore {
   const logger = newLogger('parseJSONAsStore')
 
   try {
     // TODO Use AJV to verify JSON integrity
 
-    return JSON.parse(
-      await fs.promises.readFile(dataPathname, 'utf8')
-    ) as TStore
+    return JSON.parse(fs.readFileSync(dataPathname, 'utf8')) as TStore
   } catch (err) {
-    logger.error(`Can't parse ${dataPathname}, exiting.`)
+    logger.error(`Can't parse ${dataPathname}, exiting.`, err)
     process.exit(1)
   }
 }
