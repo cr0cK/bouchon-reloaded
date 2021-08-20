@@ -2,6 +2,7 @@ import * as express from 'express'
 import { isDefined } from '../helpers'
 import { newLogger } from '../logger'
 import { Action, EndPoint, Route } from '../types'
+import { getDefaultResponseStatusCode } from './helpers'
 
 const logger = newLogger('Router')
 
@@ -79,29 +80,14 @@ function handleRouteResponse(
   selectedData: any
 ) {
   return (req: express.Request, res: express.Response) => {
+    // call custom handler if defined
+    if (route.handler) {
+      route.handler(selectedData)(req, res)
+      return
+    }
+
     const status = getDefaultResponseStatusCode(selectedData)(req, res)
     res.status(status).send(selectedData)
-  }
-}
-
-/**
- * Return the default status code according to the method and selected data.
- */
-function getDefaultResponseStatusCode(selectedData: any) {
-  return (req: express.Request, res: express.Response) => {
-    if (req.method === 'GET' && !isDefined(selectedData)) {
-      return 404
-    }
-
-    if (req.method === 'DELETE' && !isDefined(selectedData)) {
-      return 204
-    }
-
-    if (req.method === 'POST') {
-      return 201
-    }
-
-    return 200
   }
 }
 

@@ -1,3 +1,5 @@
+import * as express from 'express'
+
 /** Helpers */
 
 export type Perhaps<T> = T | null | undefined
@@ -43,6 +45,9 @@ export type Route<TState, TActionUnion, TSelectorReturn> = {
   pathname: string
   action: (action: TActionUnion) => void
   selector: Selector<TState, TActionUnion, TSelectorReturn>
+  handler?: (
+    selectedData: TSelectorReturn
+  ) => (req: express.Request, res: express.Response) => void
 }
 
 export type EndPoint = {

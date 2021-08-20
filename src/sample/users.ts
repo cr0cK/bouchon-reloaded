@@ -1,5 +1,6 @@
 import * as path from 'path'
 import { startCork } from '../libs/router'
+import { getDefaultResponseStatusCode } from '../libs/router/helpers'
 import { createCork } from '../libs/store'
 import { parseData } from '../libs/store/init'
 import { MyActionEnum, MyActionsRecord } from '../sample/actions'
@@ -90,19 +91,18 @@ const endPoint = createEndPoint('', [
     pathname: '/profile/:profileId/users',
     action: getUser,
     selector: selectAllUsers
-    // handler: (req, res) => {
-
-    // }
   }),
 
   createRoute({
     method: 'GET',
     pathname: '/profile/:profileId/users/:userId',
     action: getUser,
-    selector: selectOneUser
-    // handler: (req, res) => {
-
-    // }
+    selector: selectOneUser,
+    handler: selectedData => (req, res) => {
+      res
+        .status(getDefaultResponseStatusCode(selectedData)(req, res))
+        .send(`selectedData: ${JSON.stringify(selectedData)}`)
+    }
   }),
 
   createRoute({
