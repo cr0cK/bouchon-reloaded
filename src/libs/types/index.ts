@@ -1,5 +1,6 @@
 /** Helpers */
 
+export type Perhaps<T> = T | null | undefined
 export type Maybe<T> = T | null
 
 /** State machine */
@@ -40,7 +41,7 @@ export type Selector<TState, TActionUnion, TSelectorReturn> = (
 export type Route<TState, TActionUnion, TSelectorReturn> = {
   method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'HEAD'
   pathname: string
-  action: Action
+  action: (action: TActionUnion) => void
   selector: Selector<TState, TActionUnion, TSelectorReturn>
 }
 

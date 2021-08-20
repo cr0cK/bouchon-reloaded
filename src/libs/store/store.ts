@@ -1,12 +1,12 @@
 import { newLogger } from '../logger'
-import { Reducer, Reducers, State } from '../types'
+import { Action, Reducer, Reducers, State } from '../types'
 
 const logger = newLogger('Store')
 
 export class Store<
   TState extends State,
   TActionEnum extends string,
-  TActionsRecord extends Record<TActionEnum, object>
+  TActionsRecord extends Record<TActionEnum, Action>
 > {
   private _state: TState
   private _reducers: Reducers<TState, TActionEnum, TActionsRecord> = new Map()

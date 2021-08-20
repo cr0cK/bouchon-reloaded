@@ -43,6 +43,7 @@ const {
   )
 )
 
+const getUser = createAction(MyActionEnum.UserGet)
 const addUser = createAction(MyActionEnum.UserAdd)
 const removeUser = createAction(MyActionEnum.UserRemove)
 
@@ -53,6 +54,10 @@ const removeUser = createAction(MyActionEnum.UserRemove)
 //     id: 1
 //   }
 // })
+
+registerReducer(MyActionEnum.UserGet, (state, action) => {
+  return state
+})
 
 registerReducer(MyActionEnum.UserAdd, (state, action) => {
   return state
@@ -68,9 +73,10 @@ const selectAllUsers = createSelector((state, action) => {
 
 const selectOneUser = createSelector((state, action) => {
   switch (action.name) {
+    case MyActionEnum.UserGet:
     case MyActionEnum.UserRemove:
       return selectAllUsers(action).find(
-        user => user.id === action.parameters.id
+        user => user.id === action.parameters.userId
       )
 
     default:
@@ -82,8 +88,18 @@ const endPoint = createEndPoint('', [
   createRoute({
     method: 'GET',
     pathname: '/profile/:profileId/users',
-    action: addUser,
+    action: getUser,
     selector: selectAllUsers
+    // handler: (req, res) => {
+
+    // }
+  }),
+
+  createRoute({
+    method: 'GET',
+    pathname: '/profile/:profileId/users/:userId',
+    action: getUser,
+    selector: selectOneUser
     // handler: (req, res) => {
 
     // }

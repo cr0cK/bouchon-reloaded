@@ -15,9 +15,17 @@ export function createCork<
      * Return a function that dispatchs the action.
      */
     createAction(actionName: keyof TActionsRecord) {
-      return (action: TActionsRecord[TActionEnum]): void => {
+      const actionFn = function (action: TActionsRecord[TActionEnum]): void {
         store.dispatch(actionName, action)
       }
+
+      // add the function name
+      Object.defineProperty(actionFn, 'name', {
+        value: actionName,
+        writable: false
+      })
+
+      return actionFn
     },
 
     /**

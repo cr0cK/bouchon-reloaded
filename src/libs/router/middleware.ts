@@ -1,6 +1,7 @@
 import * as express from 'express'
+import { isDefined } from '../helpers'
 import { newLogger } from '../logger'
-import { EndPoint, Route } from '../types'
+import { Action, EndPoint, Route } from '../types'
 
 const logger = newLogger('Router')
 
@@ -10,19 +11,98 @@ const logger = newLogger('Router')
 export function corkRouter(endpoints: EndPoint[]): express.Router {
   const router = express.Router()
 
+  router.use(express.json())
+
+  router.use(
+    express.urlencoded({
+      extended: true
+    })
+  )
+
   endpoints.forEach(endPoint => {
     endPoint.routes.forEach(route => {
-      const routerMethodFn = getRouteMethodFn(router, route.method)
-
       logger.info(`Register ${route.method} ${route.pathname}`)
 
-      routerMethodFn(route.pathname, (req, res, next) => {
-        res.send('hey')
-      })
+      const routerMethodFn = getRouteMethodFn(router, route.method)
+      routerMethodFn(route.pathname, handleRoute(route))
     })
   })
 
   return router
+}
+
+/**
+ * Handle the route response.
+ */
+function handleRoute(route: Route<any, any, any>) {
+  return (req: express.Request, res: express.Response) => {
+    const action: Action = {
+      name: route.action.name,
+      parameters: castParameters(req.params),
+      bodyParameters: castParameters(req.body),
+      headerParameters: castParameters(req.headers)
+    }
+
+    dispatchRouteAction(route, action)(req, res)
+
+    const selectedData = selectRouteData(route, action)(req, res)
+    handleRouteResponse(route, action, selectedData)(req, res)
+  }
+}
+
+/**
+ * Dispatch the route action with request parameters.
+ */
+function dispatchRouteAction(route: Route<any, any, any>, action: Action) {
+  return (req: express.Request, res: express.Response) => {
+    logger.debug(`Dispatching "${route.action.name}"`)
+    route.action(action)
+  }
+}
+
+/**
+ * Select route data by calling the action selector function.
+ */
+function selectRouteData(route: Route<any, any, any>, action: Action) {
+  return (req: express.Request, res: express.Response): any => {
+    logger.debug(`Selecting data for action "${route.action.name}"`)
+    return route.selector(action)
+  }
+}
+
+/**
+ * Return the data via response object.
+ */
+function handleRouteResponse(
+  route: Route<any, any, any>,
+  action: Action,
+  selectedData: any
+) {
+  return (req: express.Request, res: express.Response) => {
+    const status = getDefaultResponseStatusCode(selectedData)(req, res)
+    res.status(status).send(selectedData)
+  }
+}
+
+/**
+ * Return the default status code according to the method and selected data.
+ */
+function getDefaultResponseStatusCode(selectedData: any) {
+  return (req: express.Request, res: express.Response) => {
+    if (req.method === 'GET' && !isDefined(selectedData)) {
+      return 404
+    }
+
+    if (req.method === 'DELETE' && !isDefined(selectedData)) {
+      return 204
+    }
+
+    if (req.method === 'POST') {
+      return 201
+    }
+
+    return 200
+  }
 }
 
 /**
@@ -51,4 +131,22 @@ function getRouteMethodFn(
     case 'HEAD':
       return router.head.bind(router)
   }
+}
+
+/**
+ * Cast parameters that look like as numbers as numbers.
+ */
+function castParameters<T>(parameters: T): T {
+  return Object.entries(parameters).reduce((acc, [key, value]) => {
+    if (!isDefined(value)) {
+      return acc
+    }
+
+    const isDigit = /^[0-9]+$/.test(value)
+
+    return {
+      ...acc,
+      [key]: isDigit ? Number(value) : value
+    }
+  }, {} as T)
 }

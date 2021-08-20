@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "tsc -w",
+    "start": "node --inspect -r ts-node/register src/sample/users.ts",
+    "dev": "nodemon -w src -e ts -x \"npm run start\"",
     "test": "jest"
   },
   "author": "",
@@ -15,6 +16,7 @@
     "@types/node": "^16.4.7",
     "@types/uuid": "^8.3.1",
     "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
     "prettier": "^2.3.2",
     "ts-jest": "^27.0.4",
     "ts-node": "^10.1.0",
