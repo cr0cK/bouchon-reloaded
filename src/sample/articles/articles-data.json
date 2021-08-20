@@ -1,0 +1,12 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "name": "Article 1"
+    },
+    {
+      "id": 2,
+      "name": "Article 2"
+    }
+  ]
+}

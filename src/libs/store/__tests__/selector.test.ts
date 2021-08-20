@@ -1,11 +1,11 @@
-import { createCork } from '.'
+import { createBouchon } from '../../bouchon'
 
 describe('Selector', () => {
   type State = { users: Array<{ id: number; name: string }> }
 
   describe('createSelector', () => {
     it('should select a part of the state', () => {
-      const { createSelector } = createCork<State, any, any, any>({
+      const { createSelector } = createBouchon<State, any, any, any>({
         users: [
           { id: 1, name: 'Bob' },
           { id: 2, name: 'Alice' }

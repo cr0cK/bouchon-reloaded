@@ -1,68 +1,47 @@
-import { Action, Route, Selector, SelectorFn, State } from '../types'
-import { EndPoint } from './../types/index'
-import { Store } from './store'
+import { newLogger } from '../logger'
+import { Action, Reducer, Reducers, State } from '../types'
 
-export function createCork<
+const logger = newLogger('Store')
+
+export class Store<
   TState extends State,
   TActionEnum extends string,
-  TActionUnion extends Action,
-  TActionsRecord extends Record<TActionEnum, TActionUnion>
->(initialState: TState) {
-  const store = new Store<TState, TActionEnum, TActionsRecord>(initialState)
+  TActionsRecord extends Record<TActionEnum, Action>
+> {
+  private _state: TState
+  private _reducers: Reducers<TState, TActionEnum, TActionsRecord> = new Map()
 
-  return {
-    /**
-     * Return a function that dispatchs the action.
-     */
-    createAction(actionName: keyof TActionsRecord) {
-      const actionFn = function (action: TActionsRecord[TActionEnum]): void {
-        store.dispatch(actionName, action)
-      }
+  constructor(state: TState) {
+    this._state = state
+  }
 
-      // add the function name
-      Object.defineProperty(actionFn, 'name', {
-        value: actionName,
-        writable: false
-      })
+  getState(): TState {
+    return this._state
+  }
 
-      return actionFn
-    },
+  registerReducer<TActionEnum extends keyof TActionsRecord>(
+    actionName: TActionEnum,
+    reducerFn: Reducer<TState, any>
+  ): this {
+    this._reducers.set(actionName, reducerFn)
+    return this
+  }
 
-    /**
-     * Register a reducer for a defined action name.
-     */
-    registerReducer<TActionEnum_ extends TActionEnum>(
-      actionName: TActionEnum_,
-      reducerFn: (state: TState, action: TActionsRecord[TActionEnum_]) => TState
-    ): void {
-      store.registerReducer(actionName, reducerFn)
-    },
+  dispatch<AE extends keyof TActionsRecord>(
+    actionName: AE,
+    action: TActionsRecord[AE]
+  ): this {
+    const reducer = this._reducers.get(actionName)
 
-    /**
-     * Create a selector.
-     */
-    createSelector<TSelectorReturn>(
-      selectorFn: SelectorFn<TState, TActionUnion, TSelectorReturn>
-    ): Selector<TState, TActionUnion, TSelectorReturn> {
-      return (action: TActionUnion) => {
-        return selectorFn(store.getState(), action)
-      }
-    },
-
-    createEndPoint(
-      pathname: string,
-      routes: Route<TState, TActionUnion, any>[]
-    ): EndPoint {
-      return {
-        pathname: pathname,
-        routes
-      }
-    },
-
-    createRoute<TSelectorReturn>(
-      route: Route<TState, TActionUnion, TSelectorReturn>
-    ): Route<TState, TActionUnion, TSelectorReturn> {
-      return route
+    if (!reducer) {
+      logger.debug(`No reducer found for action "${actionName}"`)
+      return this
     }
+
+    logger.debug(`Dispatching action "${actionName}"`)
+
+    this._state = reducer(this._state, action)
+
+    return this
   }
 }
