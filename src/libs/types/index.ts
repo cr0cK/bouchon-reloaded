@@ -16,6 +16,8 @@ export interface Action {
   headerParameters?: object
 }
 
+export type ActionFn<A> = (action: A) => void
+
 export type Reducer<TState extends State, TActionProps> = (
   state: TState,
   action: TActionProps
@@ -43,7 +45,7 @@ export type Selector<TState, TActionUnion, TSelectorReturn> = (
 export type Route<TState, TActionUnion, TSelectorReturn> = {
   method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'HEAD'
   pathname: string
-  action: (action: TActionUnion) => void
+  action: ActionFn<any>
   selector: Selector<TState, TActionUnion, TSelectorReturn>
   handler?: (
     selectedData: TSelectorReturn

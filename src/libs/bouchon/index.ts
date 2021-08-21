@@ -1,5 +1,5 @@
 import { Store } from '../store'
-import { Action, Route, Selector, SelectorFn, State } from '../types'
+import { Action, ActionFn, Route, Selector, SelectorFn, State } from '../types'
 import { EndPoint } from './../types/index'
 
 export function createBouchon<
@@ -14,8 +14,10 @@ export function createBouchon<
     /**
      * Return a function that dispatchs the action.
      */
-    createAction(actionName: keyof TActionsRecord) {
-      const actionFn = function (action: TActionsRecord[TActionEnum]): void {
+    createAction<TActionName extends keyof TActionsRecord>(
+      actionName: TActionName
+    ): ActionFn<TActionsRecord[TActionName]> {
+      const actionFn = function (action: TActionsRecord[TActionName]): void {
         store.dispatch(actionName, action)
       }
 

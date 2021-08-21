@@ -5,13 +5,13 @@ export type StoreArticles = {
 }
 
 export enum ArticlesActionEnum {
-  ArticleGet = 'ArticleGet',
-  ArticleAdd = 'ArticleAdd',
-  ArticleRemove = 'ArticleRemove'
+  GetArticle = 'GetArticle',
+  AddArticle = 'AddArticle',
+  RemoveArticle = 'RemoveArticle'
 }
 
 export interface GetArticleAction extends Action {
-  name: ArticlesActionEnum.ArticleGet
+  name: ArticlesActionEnum.GetArticle
   parameters: {
     profileId: number
     articleId: number
@@ -19,7 +19,7 @@ export interface GetArticleAction extends Action {
 }
 
 export interface AddArticleAction extends Action {
-  name: ArticlesActionEnum.ArticleAdd
+  name: ArticlesActionEnum.AddArticle
   parameters: {
     profileId: number
   }
@@ -31,7 +31,7 @@ export interface AddArticleAction extends Action {
 }
 
 export interface RemoveArticleAction extends Action {
-  name: ArticlesActionEnum.ArticleRemove
+  name: ArticlesActionEnum.RemoveArticle
   parameters: {
     profileId: number
     articleId: number
@@ -45,7 +45,7 @@ export type ArticlesActionUnion =
 
 export interface ArticlesActionsRecord
   extends Record<ArticlesActionEnum, ArticlesActionUnion> {
-  [ArticlesActionEnum.ArticleGet]: GetArticleAction
-  [ArticlesActionEnum.ArticleAdd]: AddArticleAction
-  [ArticlesActionEnum.ArticleRemove]: RemoveArticleAction
+  [ArticlesActionEnum.GetArticle]: GetArticleAction
+  [ArticlesActionEnum.AddArticle]: AddArticleAction
+  [ArticlesActionEnum.RemoveArticle]: RemoveArticleAction
 }

@@ -27,20 +27,20 @@ const {
   )
 )
 
-const getArticle = createAction(ArticlesActionEnum.ArticleGet)
-const addArticle = createAction(ArticlesActionEnum.ArticleAdd)
-const removeArticle = createAction(ArticlesActionEnum.ArticleRemove)
+export const getArticle = createAction(ArticlesActionEnum.GetArticle)
+const addArticle = createAction(ArticlesActionEnum.AddArticle)
+const removeArticle = createAction(ArticlesActionEnum.RemoveArticle)
 
-registerReducer(ArticlesActionEnum.ArticleGet, (state, action) => {
+registerReducer(ArticlesActionEnum.GetArticle, (state, action) => {
   return state
 })
 
-registerReducer(ArticlesActionEnum.ArticleAdd, (state, action) => {
+registerReducer(ArticlesActionEnum.AddArticle, (state, action) => {
   state.articles.push(action.bodyParameters)
   return state
 })
 
-registerReducer(ArticlesActionEnum.ArticleRemove, (state, action) => {
+registerReducer(ArticlesActionEnum.RemoveArticle, (state, action) => {
   return state
 })
 
@@ -50,8 +50,8 @@ const selectAllArticles = createSelector((state, action) => {
 
 const selectOneArticle = createSelector((state, action) => {
   switch (action.name) {
-    case ArticlesActionEnum.ArticleGet:
-    case ArticlesActionEnum.ArticleRemove:
+    case ArticlesActionEnum.GetArticle:
+    case ArticlesActionEnum.RemoveArticle:
       return selectAllArticles(action).find(
         article => article.id === action.parameters.articleId
       )

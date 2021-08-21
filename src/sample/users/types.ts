@@ -8,13 +8,13 @@ export type StoreUsers = {
 }
 
 export enum UsersActionEnum {
-  UserGet = 'UserGet',
-  UserAdd = 'UserAdd',
-  UserRemove = 'UserRemove'
+  GetUser = 'GetUser',
+  AddUser = 'AddUser',
+  RemoveUser = 'RemoveUser'
 }
 
 export interface GetUserAction extends Action {
-  name: UsersActionEnum.UserGet
+  name: UsersActionEnum.GetUser
   parameters: {
     profileId: number
     userId: number
@@ -22,7 +22,7 @@ export interface GetUserAction extends Action {
 }
 
 export interface AddUserAction extends Action {
-  name: UsersActionEnum.UserAdd
+  name: UsersActionEnum.AddUser
   parameters: {
     profileId: number
   }
@@ -34,7 +34,7 @@ export interface AddUserAction extends Action {
 }
 
 export interface RemoveUserAction extends Action {
-  name: UsersActionEnum.UserRemove
+  name: UsersActionEnum.RemoveUser
   parameters: {
     profileId: number
     userId: number
@@ -45,7 +45,7 @@ export type UsersActionUnion = GetUserAction | AddUserAction | RemoveUserAction
 
 export interface UsersActionsRecord
   extends Record<UsersActionEnum, UsersActionUnion> {
-  [UsersActionEnum.UserGet]: GetUserAction
-  [UsersActionEnum.UserAdd]: AddUserAction
-  [UsersActionEnum.UserRemove]: RemoveUserAction
+  [UsersActionEnum.GetUser]: GetUserAction
+  [UsersActionEnum.AddUser]: AddUserAction
+  [UsersActionEnum.RemoveUser]: RemoveUserAction
 }
