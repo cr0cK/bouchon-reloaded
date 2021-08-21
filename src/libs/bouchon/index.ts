@@ -2,6 +2,9 @@ import { Store } from '../store'
 import { Action, ActionFn, Route, Selector, SelectorFn, State } from '../types'
 import { EndPoint } from './../types/index'
 
+/**
+ * Create a new "Bouchon" by binding functions to a store instance.
+ */
 export function createBouchon<
   TState extends State,
   TActionEnum extends string,

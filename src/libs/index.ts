@@ -1,20 +1,51 @@
 import * as express from 'express'
+import { Server } from 'http'
 import { newLogger } from './logger'
 import { bouchonRouter } from './router'
 import { EndPoint } from './types'
 
 const logger = newLogger('Bouchon')
 
-export function startBouchon(
-  host: string,
-  port: number,
-  endPoints: EndPoint[]
-) {
-  const app = express()
+/**
+ * Main Bouchon program handler.
+ */
+export function bouchon(host: string, port: number, endPoints: EndPoint[]) {
+  let server: Server
 
-  app.use(bouchonRouter(endPoints))
+  return {
+    /**
+     * Start a simple server.
+     */
+    start(): Promise<Server> {
+      return new Promise(resolve => {
+        const app = express()
 
-  app.listen(port, () => {
-    logger.info(`Start app at http://${host}:${port}`)
-  })
+        app.use(bouchonRouter(endPoints))
+
+        server = app.listen(port, () => {
+          logger.info(`Start app at http://${host}:${port}`)
+
+          resolve(server)
+        })
+
+        server.on('close', () => {
+          logger.info('Closing Bouchon...')
+        })
+      })
+    },
+
+    /**
+     * Return the server instance.
+     */
+    getServer(): Server {
+      return server
+    },
+
+    /**
+     * Return the server instance.
+     */
+    stop(): void {
+      server.close()
+    }
+  }
 }

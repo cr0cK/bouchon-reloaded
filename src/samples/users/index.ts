@@ -62,15 +62,18 @@ const selectOneUser = createSelector((state, action) => {
 const endPoint = createEndPoint('/api', [
   createRoute({
     method: 'GET',
-    pathname: '/profile/:profileId/users',
-    // action: getUser,
-    action: combineActions(UsersActionEnum.GetUser, [getUser, getArticle]),
+    pathname: '/users',
+    action: getUser,
+    // action: combineActions(UsersActionEnum.GetUser, [
+    //   getUser,
+    //   { action: getArticle, delay: 1000 }
+    // ]),
     selector: selectAllUsers
   }),
 
   createRoute({
     method: 'GET',
-    pathname: '/profile/:profileId/users/:userId',
+    pathname: '/users/:userId',
     action: getUser,
     selector: selectOneUser,
     handler: selectedData => (req, res) => {
@@ -82,15 +85,8 @@ const endPoint = createEndPoint('/api', [
 
   createRoute({
     method: 'POST',
-    pathname: '/profile/:profileId/users',
+    pathname: '/users',
     action: addUser,
-    selector: selectAllUsers
-  }),
-
-  createRoute({
-    method: 'GET',
-    pathname: '/profile/:profileId/usersWithArticles',
-    action: getUser,
     selector: selectAllUsers
   })
 ])

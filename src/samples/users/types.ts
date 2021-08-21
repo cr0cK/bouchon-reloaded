@@ -2,9 +2,6 @@ import { Action } from '../../libs/types'
 
 export type StoreUsers = {
   users: Array<{ id: number; name: string }>
-  settings: {
-    languages: string[]
-  }
 }
 
 export enum UsersActionEnum {
@@ -16,16 +13,13 @@ export enum UsersActionEnum {
 export interface GetUserAction extends Action {
   name: UsersActionEnum.GetUser
   parameters: {
-    profileId: number
     userId: number
   }
 }
 
 export interface AddUserAction extends Action {
   name: UsersActionEnum.AddUser
-  parameters: {
-    profileId: number
-  }
+  parameters: {}
   bodyParameters: {
     id: number
     name: string
@@ -36,7 +30,6 @@ export interface AddUserAction extends Action {
 export interface RemoveUserAction extends Action {
   name: UsersActionEnum.RemoveUser
   parameters: {
-    profileId: number
     userId: number
   }
 }
