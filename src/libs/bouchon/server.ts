@@ -1,15 +1,19 @@
+import { newLogger } from '@libs/logger'
+import { bouchonRouter } from '@libs/router'
+import { EndPoint } from '@libs/types'
 import * as express from 'express'
 import { Server } from 'http'
-import { newLogger } from './logger'
-import { bouchonRouter } from './router'
-import { EndPoint } from './types'
 
 const logger = newLogger('Bouchon')
 
 /**
- * Main Bouchon program handler.
+ * Start/close a Bouchon server.
  */
-export function bouchon(host: string, port: number, endPoints: EndPoint[]) {
+export function bouchonServer(
+  host: string,
+  port: number,
+  endPoints: EndPoint[]
+) {
   let server: Server
 
   return {

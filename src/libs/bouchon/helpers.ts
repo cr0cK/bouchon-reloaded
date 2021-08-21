@@ -1,5 +1,5 @@
+import { newLogger } from '@libs/logger'
 import * as fs from 'fs'
-import { newLogger } from '../logger'
 
 /**
  * Parse JSON and verify integrify via a JSON schema.

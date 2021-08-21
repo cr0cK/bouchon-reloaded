@@ -1,6 +1,13 @@
-import { Store } from '../store'
-import { Action, ActionFn, Route, Selector, SelectorFn, State } from '../types'
-import { EndPoint } from './../types/index'
+import { Store } from '@libs/store'
+import { EndPoint } from '@libs/types'
+import {
+  Action,
+  ActionFn,
+  Route,
+  Selector,
+  SelectorFn,
+  State
+} from '@libs/types'
 
 /**
  * Create a new "Bouchon" by binding functions to a store instance.

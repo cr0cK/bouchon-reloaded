@@ -1,7 +1,7 @@
+import { isDefined } from '@libs/helpers'
+import { newLogger } from '@libs/logger'
+import { Action, EndPoint, Route } from '@libs/types'
 import * as express from 'express'
-import { isDefined } from '../helpers'
-import { newLogger } from '../logger'
-import { Action, EndPoint, Route } from '../types'
 import { getDefaultResponseStatusCode } from './helpers'
 
 const logger = newLogger('Router')

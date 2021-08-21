@@ -1,5 +1,5 @@
-import { newLogger } from '../logger'
-import { Action, Reducer, Reducers, State } from '../types'
+import { newLogger } from '@libs//logger'
+import { Action, Reducer, Reducers, State } from '@libs//types'
 
 const logger = newLogger('Store')
 

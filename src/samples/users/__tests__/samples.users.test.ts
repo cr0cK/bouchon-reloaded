@@ -1,20 +1,20 @@
 import fetch from 'node-fetch'
-import { bouchon } from '../../../libs'
+import { bouchonServer } from '@libs/bouchon/server'
 import { endPoint as usersEndPoint } from '../../users'
 
 describe('Users samples', () => {
-  let bouchonHandler: ReturnType<typeof bouchon>
+  let server: ReturnType<typeof bouchonServer>
 
   const host = 'localhost'
   const port = 5001
 
   beforeAll(async () => {
-    bouchonHandler = bouchon(host, port, [usersEndPoint])
-    await bouchonHandler.start()
+    server = bouchonServer(host, port, [usersEndPoint])
+    await server.start()
   })
 
   afterAll(() => {
-    bouchonHandler.stop()
+    server.stop()
   })
 
   it('should retrieve users', async () => {

@@ -1,7 +1,7 @@
+import { createBouchon } from '@libs/bouchon'
+import { parseData } from '@libs/bouchon/helpers'
+import { getDefaultResponseStatusCode } from '@libs/router/helpers'
 import * as path from 'path'
-import { createBouchon } from '../../libs/bouchon'
-import { parseData } from '../../libs/bouchon/helpers'
-import { getDefaultResponseStatusCode } from '../../libs/router/helpers'
 import {
   ArticlesActionEnum,
   ArticlesActionsRecord,

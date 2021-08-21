@@ -1,4 +1,4 @@
-import { Store } from '..'
+import { Store } from '@libs/store'
 
 describe('Store', () => {
   describe('getState()', () => {
