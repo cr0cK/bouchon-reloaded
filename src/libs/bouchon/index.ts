@@ -4,8 +4,8 @@ import {
   Action,
   ActionFn,
   Route,
-  Selector,
   SelectorFn,
+  Selector,
   State
 } from '@libs/types'
 
@@ -54,8 +54,8 @@ export function createBouchon<
      * Create a selector.
      */
     createSelector<TSelectorReturn>(
-      selectorFn: SelectorFn<TState, TActionUnion, TSelectorReturn>
-    ): Selector<TState, TActionUnion, TSelectorReturn> {
+      selectorFn: Selector<TState, TActionUnion, TSelectorReturn>
+    ): SelectorFn<TActionUnion, TSelectorReturn> {
       return (action: TActionUnion) => {
         return selectorFn(store.getState(), action)
       }
@@ -63,7 +63,7 @@ export function createBouchon<
 
     createEndPoint(
       pathname: string,
-      routes: Route<TState, TActionUnion, any>[]
+      routes: Route<TActionUnion, any>[]
     ): EndPoint {
       return {
         pathname: pathname,
@@ -72,8 +72,8 @@ export function createBouchon<
     },
 
     createRoute<TSelectorReturn>(
-      route: Route<TState, TActionUnion, TSelectorReturn>
-    ): Route<TState, TActionUnion, TSelectorReturn> {
+      route: Route<TActionUnion, TSelectorReturn>
+    ): Route<TActionUnion, TSelectorReturn> {
       return route
     }
   }

@@ -1,6 +1,6 @@
 import { isDefined } from '@libs/helpers'
 import { newLogger } from '@libs/logger'
-import { Action, EndPoint, Route } from '@libs/types'
+import { Action, AnyRoute, EndPoint } from '@libs/types'
 import * as express from 'express'
 import { getDefaultResponseStatusCode } from './helpers'
 
@@ -40,7 +40,7 @@ export function bouchonRouter(endpoints: EndPoint[]): express.Router {
 /**
  * Handle the route response.
  */
-function handleRoute(route: Route<any, any, any>) {
+function handleRoute(route: AnyRoute) {
   return (req: express.Request, res: express.Response): void => {
     const action: Action = {
       name: route.action.name,
@@ -49,9 +49,9 @@ function handleRoute(route: Route<any, any, any>) {
       headerParameters: req.headers
     }
 
-    dispatchRouteAction(route, action)(req, res)
+    dispatchRouteAction(route, action)(/* req, res */)
 
-    const selectedData = selectRouteData(route, action)(req, res)
+    const selectedData = selectRouteData(route, action)(/* req, res */)
     handleRouteResponse(route, action, selectedData)(req, res)
   }
 }
@@ -59,8 +59,8 @@ function handleRoute(route: Route<any, any, any>) {
 /**
  * Dispatch the route action with request parameters.
  */
-function dispatchRouteAction(route: Route<any, any, any>, action: Action) {
-  return (req: express.Request, res: express.Response): void => {
+function dispatchRouteAction(route: AnyRoute, action: Action) {
+  return (/* req: express.Request, res: express.Response */): void => {
     logger.debug(`Dispatching "${route.action.name}"`)
     route.action(action)
   }
@@ -69,8 +69,15 @@ function dispatchRouteAction(route: Route<any, any, any>, action: Action) {
 /**
  * Select route data by calling the action selector function.
  */
-function selectRouteData(route: Route<any, any, any>, action: Action) {
-  return (req: express.Request, res: express.Response): any => {
+function selectRouteData(route: AnyRoute, action: Action) {
+  return (/* req: express.Request, res: express.Response */): any => {
+    if (!route.selector) {
+      logger.debug(
+        `No selector defined for action "${route.action.name}, return no data"`
+      )
+      return undefined
+    }
+
     logger.debug(`Selecting data for action "${route.action.name}"`)
     return route.selector(action)
   }
@@ -80,7 +87,7 @@ function selectRouteData(route: Route<any, any, any>, action: Action) {
  * Return the data via response object.
  */
 function handleRouteResponse(
-  route: Route<any, any, any>,
+  route: AnyRoute,
   action: Action,
   selectedData: any
 ) {
@@ -101,7 +108,7 @@ function handleRouteResponse(
  */
 function getRouteMethodFn(
   router: express.Router,
-  method: Route<any, any, any>['method']
+  method: AnyRoute['method']
 ): express.IRouterMatcher<any> {
   switch (method) {
     case 'GET':

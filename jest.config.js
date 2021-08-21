@@ -1,5 +1,3 @@
-const isCI = process.env.CI === '1'
-
 module.exports = {
   roots: [
     '<rootDir>/src'

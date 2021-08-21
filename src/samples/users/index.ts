@@ -1,6 +1,5 @@
 import { createBouchon } from '@libs/bouchon'
 import { parseData } from '@libs/bouchon/helpers'
-import { getDefaultResponseStatusCode } from '@libs/router/helpers'
 import * as path from 'path'
 import {
   StoreUsers,
@@ -40,6 +39,11 @@ registerReducer(UsersActionEnum.AddUser, (state, action) => {
   return state
 })
 
+registerReducer(UsersActionEnum.RemoveUser, (state, action) => {
+  state.users = state.users.filter(user => user.id !== action.parameters.userId)
+  return state
+})
+
 const selectAllUsers = createSelector((state, action) => {
   return state.users
 })
@@ -47,7 +51,6 @@ const selectAllUsers = createSelector((state, action) => {
 const selectOneUser = createSelector((state, action) => {
   switch (action.name) {
     case UsersActionEnum.GetUser:
-    case UsersActionEnum.RemoveUser:
       return selectAllUsers(action).find(
         user => user.id === action.parameters.userId
       )
@@ -73,12 +76,12 @@ const endPoint = createEndPoint('/api', [
     method: 'GET',
     pathname: '/users/:userId',
     action: getUser,
-    selector: selectOneUser,
-    handler: selectedData => (req, res) => {
-      res
-        .status(getDefaultResponseStatusCode(selectedData)(req, res))
-        .send(`selectedData: ${JSON.stringify(selectedData)}`)
-    }
+    selector: selectOneUser
+    // handler: selectedData => (req, res) => {
+    //   res
+    //     .status(getDefaultResponseStatusCode(selectedData)(req, res))
+    //     .send(`selectedData: ${JSON.stringify(selectedData)}`)
+    // }
   }),
 
   createRoute({
@@ -86,6 +89,12 @@ const endPoint = createEndPoint('/api', [
     pathname: '/users',
     action: addUser,
     selector: selectAllUsers
+  }),
+
+  createRoute({
+    method: 'DELETE',
+    pathname: '/users/:userId',
+    action: removeUser
   })
 ])
 

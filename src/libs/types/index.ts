@@ -31,28 +31,30 @@ export type Reducers<
 
 /** Selectors */
 
-export type SelectorFn<TState, TActionUnion, TSelectorReturn> = (
+export type Selector<TState, TActionUnion, TSelectorReturn> = (
   state: TState,
   action: TActionUnion
 ) => TSelectorReturn
 
-export type Selector<TState, TActionUnion, TSelectorReturn> = (
+export type SelectorFn<TActionUnion, TSelectorReturn> = (
   action: TActionUnion
 ) => TSelectorReturn
 
 /** Routing */
 
-export type Route<TState, TActionUnion, TSelectorReturn> = {
+export type Route<TActionUnion, TSelectorReturn> = {
   method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'HEAD'
   pathname: string
   action: ActionFn<any>
-  selector: Selector<TState, TActionUnion, TSelectorReturn>
+  selector?: SelectorFn<TActionUnion, TSelectorReturn>
   handler?: (
     selectedData: TSelectorReturn
   ) => (req: express.Request, res: express.Response) => void
 }
 
+export type AnyRoute = Route<any, any>
+
 export type EndPoint = {
   pathname: string
-  routes: Array<Route<any, any, any>>
+  routes: Array<Route<any, any>>
 }
