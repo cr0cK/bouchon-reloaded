@@ -1,10 +1,13 @@
-const logger = console
+import * as bunyan from 'bunyan'
+
+const logLevel = (process.env.LOG_LEVEL as bunyan.LogLevel) || 'info'
+
+export const logger = bunyan.createLogger({
+  name: 'Bouchon',
+  stream: process.stdout,
+  level: logLevel
+})
 
 export function newLogger(namespace: string) {
-  return {
-    debug: (...args: any[]) => logger.debug(`[${namespace}]`, ...args),
-    info: (...args: any[]) => logger.info(`[${namespace}]`, ...args),
-    warn: (...args: any[]) => logger.warn(`[${namespace}]`, ...args),
-    error: (...args: any[]) => logger.error(`[${namespace}]`, ...args)
-  }
+  return logger.child({ component: namespace })
 }
