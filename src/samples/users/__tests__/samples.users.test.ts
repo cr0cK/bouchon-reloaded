@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import { bouchonServer } from '@libs/bouchon/server'
-import { endPoint as usersEndPoint } from '../../users'
+
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 describe('Users samples', () => {
   let server: ReturnType<typeof bouchonServer>
@@ -9,6 +10,11 @@ describe('Users samples', () => {
   const port = 5001
 
   beforeEach(async () => {
+    // isolate modules in order to reparse JSON data for each test
+    jest.resetModules()
+
+    const { endPoint: usersEndPoint } = await import('../../users')
+
     server = bouchonServer(host, port, [usersEndPoint])
     await server.start()
   })
