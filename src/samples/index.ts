@@ -1,4 +1,4 @@
-import { bouchonServer } from '@libs/bouchon/server'
+import { bouchonServer } from '../libs'
 import { endPoint as articlesEndPoint } from './articles'
 import { endPoint as usersEndPoint } from './users'
 

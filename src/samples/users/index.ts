@@ -1,6 +1,5 @@
-import { createBouchon } from '@libs/bouchon'
-import { parseData } from '@libs/bouchon/helpers'
 import * as path from 'path'
+import { createBouchon, parseData } from '../../libs'
 import {
   StoreUsers,
   UsersActionEnum,

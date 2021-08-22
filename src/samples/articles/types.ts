@@ -1,4 +1,4 @@
-import { Action } from '@libs/types'
+import { Action } from '../../libs'
 
 export type StoreArticles = {
   articles: Array<{ id: number; name: string }>

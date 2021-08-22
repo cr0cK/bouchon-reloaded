@@ -1,4 +1,4 @@
-import { createBouchon } from '@libs/bouchon'
+import { createBouchon } from '../../bouchon'
 
 describe('Selector', () => {
   type State = { users: Array<{ id: number; name: string }> }

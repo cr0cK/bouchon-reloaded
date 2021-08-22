@@ -1,17 +1,12 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
+    "baseUrl": "src",
+    "target": "ES2015",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "./dist/types",
     "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": "src",
-    "paths": {
-      "@libs/*": ["libs/*"],
-      "@@types/*": ["types/*"]
-    },
-    "target": "ES2019",
-    "sourceMap": true,
-    "downlevelIteration": true,
-    "declaration": false,
     "noImplicitThis": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -25,7 +20,6 @@
   },
   "exclude": [
     "dist",
-    "trash",
     "node_modules"
   ]
 }
