@@ -1,4 +1,4 @@
-import { Action } from '../../libs'
+import { Action } from '../..'
 
 export type StoreArticles = {
   articles: Array<{ id: number; name: string }>

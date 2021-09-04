@@ -4,15 +4,16 @@
   "description": "",
   "author": "Alexis MINEAUD",
   "license": "MIT",
-  "main": "dist/libs/index.js",
-  "types": "dist/types/libs/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "start": "node --inspect -r ts-node/register -r tsconfig-paths/register src/samples/index.ts | bunyan",
     "dev": "nodemon -w src -e ts -x \"npm run start\"",
     "lint": "eslint .",
     "check": "tsc --noEmit",
     "build": "shx rm -rf dist && shx mkdir dist && tsc",
-    "test": "LOG_LEVEL=warn jest"
+    "test": "LOG_LEVEL=warn jest",
+    "preinstall": "npm run build"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.7",

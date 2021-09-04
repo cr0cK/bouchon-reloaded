@@ -7,13 +7,10 @@ import * as fs from 'fs'
  * Usage:
  *
  * const { ... } = createCork<...>(
- *   parseData('users-data.json', 'user-data-json-schema.json')
+ *   parseData('users-data.json')
  * )
  */
-export function parseData<TStore>(
-  dataPathname: string,
-  jsonSchemaPathname: string
-): TStore {
+export function parseData<TStore>(dataPathname: string): TStore {
   const logger = newLogger('parseJSONAsStore')
 
   try {

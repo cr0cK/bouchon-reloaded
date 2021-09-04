@@ -1,5 +1,5 @@
+import { createBouchon, parseData } from '../..'
 import * as path from 'path'
-import { createBouchon, parseData } from '../../libs'
 import {
   StoreUsers,
   UsersActionEnum,
@@ -18,12 +18,7 @@ const {
   UsersActionEnum,
   UsersActionUnion,
   UsersActionsRecord
->(
-  parseData(
-    path.join(__dirname, 'users-data.json'),
-    'user-data-json-schema.json'
-  )
-)
+>(parseData(path.join(__dirname, 'users-data.json')))
 
 const getUser = createAction(UsersActionEnum.GetUser)
 const addUser = createAction(UsersActionEnum.AddUser)

@@ -20,6 +20,7 @@
   },
   "exclude": [
     "dist",
+    "src/samples",
     "node_modules"
   ]
 }
