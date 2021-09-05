@@ -67,7 +67,7 @@ const endPoint = createEndPoint('/api', [
     pathname: '/profile/:profileId/articles/:articleId',
     action: getArticle,
     selector: selectOneArticle,
-    handler: selectedData => (req, res) => {
+    handler: (selectedData, action) => (req, res) => {
       res
         .status(getDefaultResponseStatusCode(selectedData)(req, res))
         .send(`selectedData: ${JSON.stringify(selectedData)}`)

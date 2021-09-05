@@ -94,7 +94,7 @@ function handleRouteResponse(
   return (req: express.Request, res: express.Response) => {
     // call custom handler if defined
     if (route.handler) {
-      route.handler(selectedData)(req, res)
+      route.handler(selectedData, action)(req, res)
       return
     }
 

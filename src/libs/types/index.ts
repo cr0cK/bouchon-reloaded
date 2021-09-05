@@ -48,7 +48,8 @@ export type Route<TActionUnion, TSelectorReturn> = {
   action: ActionFn<any>
   selector?: SelectorFn<TActionUnion, TSelectorReturn>
   handler?: (
-    selectedData: TSelectorReturn
+    selectedData: TSelectorReturn,
+    action: TActionUnion
   ) => (req: express.Request, res: express.Response) => void
 }
 
