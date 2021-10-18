@@ -6,6 +6,9 @@ module.exports = {
   testPathIgnorePatterns: [
     '/node_modules/'
   ],
+  moduleNameMapper: {
+    '@libs/(.*)$': '<rootDir>/src/libs/$1'
+  },
   collectCoverageFrom: [
     '**/*.{ts,tsx}',
     '!**/node_modules/**'

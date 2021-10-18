@@ -1,6 +1,6 @@
-import { isDefined } from '../helpers'
-import { newLogger } from '../logger'
-import { Action, AnyRoute, EndPoint } from '../types'
+import { isDefined } from '@libs/helpers'
+import { newLogger } from '@libs/logger'
+import { Action, AnyRoute, EndPoint } from '@libs/types'
 import * as express from 'express'
 import { getDefaultResponseStatusCode } from './helpers'
 
