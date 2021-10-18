@@ -1,4 +1,4 @@
-import { Action, ActionFn } from '../types'
+import { Action, ActionFn } from '@libs/types'
 
 /**
  * Combine actions to one new action.
