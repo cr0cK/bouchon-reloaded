@@ -1,17 +1,5 @@
-# Samples (dev purposes only)
-dist/samples
+# Ignore every files
+/*
 
-# sources
-src
-
-# tooling configuration files
-.eslint*
-.prettier*
-jest*
-tsconfig.json
-
-# optionnal tests with npm pack
-*.tgz
-
-# Keep docs
-!docs
+# Keep the dist folder
+!/dist
