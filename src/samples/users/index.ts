@@ -1,5 +1,4 @@
-import { createBouchon } from '@libs/bouchon'
-import { parseData } from '@libs/bouchon/helpers'
+import { createBouchon, parseData } from '../..'
 import * as path from 'path'
 import {
   StoreUsers,

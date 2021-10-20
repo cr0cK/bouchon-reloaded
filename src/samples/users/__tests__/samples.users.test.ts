@@ -1,4 +1,4 @@
-import { bouchonServer } from '@libs/bouchon/server'
+import { bouchonServer } from '../../..'
 import fetch from 'node-fetch'
 
 /* eslint-disable @typescript-eslint/no-var-requires */

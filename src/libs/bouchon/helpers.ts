@@ -1,4 +1,4 @@
-import { newLogger } from '@libs/logger'
+import { newLogger } from '../logger'
 import * as fs from 'fs'
 
 /**
