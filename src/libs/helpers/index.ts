@@ -1,4 +1,4 @@
-import { Perhaps } from '@libs/types'
+import { Perhaps } from '../types'
 
 /**
  * Returns a type predicate to filter undefined values of a list.

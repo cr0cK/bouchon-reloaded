@@ -1,6 +1,6 @@
-import { newLogger } from '@libs/logger'
+import { newLogger } from '../logger'
 import { bouchonRouter } from '../router'
-import { EndPoint } from '@libs/types'
+import { EndPoint } from '../types'
 import * as express from 'express'
 import { Server } from 'http'
 

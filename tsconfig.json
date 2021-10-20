@@ -16,13 +16,11 @@
     "strictNullChecks": true,
     "outDir": "dist",
     "skipLibCheck": true,
-    "types": ["node", "jest"],
-    "paths": {
-      "@libs/*": ["libs/*"]
-    }
+    "types": ["node", "jest"]
   },
   "exclude": [
     "dist",
+    "src/samples",
     "node_modules"
   ]
 }

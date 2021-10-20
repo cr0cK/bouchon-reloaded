@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { isDefined } from '@libs/helpers'
+import { isDefined } from '../helpers'
 
 /**
  * Return the default status code according to the method and selected data.
