@@ -22,3 +22,12 @@ export function parseData<TStore>(dataPathname: string): TStore {
     process.exit(1)
   }
 }
+
+/**
+ * Return the Id following the latest.
+ */
+export function getNextId<T extends { id: number }>(
+  collection: Array<T>
+): number {
+  return Math.max(...collection.map(item => item.id)) + 1
+}
