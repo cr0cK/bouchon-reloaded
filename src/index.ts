@@ -10,7 +10,7 @@ export { bouchonRouter } from './libs/router'
  * Helpers
  */
 
-export { parseData, getNextId } from './libs/bouchon/helpers'
+export { parseData, getNextMockId } from './libs/bouchon/helpers'
 export { getDefaultResponseStatusCode } from './libs/router/helpers'
 
 /**
