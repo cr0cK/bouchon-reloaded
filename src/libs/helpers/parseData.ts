@@ -12,7 +12,7 @@ export function stringifyData(data: object): string {
   const logger = newLogger('stringifyData')
 
   try {
-    return JSON.stringify(data, replacer)
+    return JSON.stringify(data, replacer, 2)
   } catch (err) {
     logger.error(`Unable to stringify data`, err)
     throw err
