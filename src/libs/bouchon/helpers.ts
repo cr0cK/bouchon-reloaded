@@ -1,5 +1,6 @@
-import { newLogger } from '../logger'
 import * as fs from 'fs'
+import { newLogger } from '../logger'
+import { MockId } from '../types'
 
 /**
  * Parse JSON and verify integrify via a JSON schema.
@@ -24,10 +25,8 @@ export function parseData<TStore>(dataPathname: string): TStore {
 }
 
 /**
- * Return the Id following the latest.
+ * Return the next mockId.
  */
-export function getNextId<T extends { id: number }>(
-  collection: Array<T>
-): number {
-  return Math.max(...collection.map(item => item.id)) + 1
+export function getNextMockId(mockIds: MockId[]): number {
+  return Math.max(...mockIds) + 1
 }
