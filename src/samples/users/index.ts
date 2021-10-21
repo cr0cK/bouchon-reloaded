@@ -1,4 +1,4 @@
-import { createBouchon, parseData } from '../..'
+import { createBouchon, parseDataSync } from '../..'
 import * as path from 'path'
 import {
   StoreUsers,
@@ -18,7 +18,7 @@ const {
   UsersActionEnum,
   UsersActionUnion,
   UsersActionsRecord
->(parseData(path.join(__dirname, 'users-data.json')))
+>(parseDataSync(path.join(__dirname, 'users-data.json')))
 
 const getUser = createAction(UsersActionEnum.GetUser)
 const addUser = createAction(UsersActionEnum.AddUser)

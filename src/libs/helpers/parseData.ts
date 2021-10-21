@@ -1,24 +1,39 @@
 import * as fs from 'fs'
+import { replacer, reviver } from './jsonSerializer'
 import { newLogger } from './logger'
 
 /**
- * Parse JSON and verify integrify via a JSON schema.
+ * Stringify data with Map/Set support.
  *
  * Usage:
- *
- * const { ... } = createCork<...>(
- *   parseData('users-data.json')
- * )
+ * stringifyData(generatedData)
  */
-export function parseData<TStore>(dataPathname: string): TStore {
-  const logger = newLogger('parseJSONAsStore')
+export function stringifyData(data: object): string {
+  const logger = newLogger('stringifyData')
+
+  try {
+    return JSON.stringify(data, replacer)
+  } catch (err) {
+    logger.error(`Unable to stringify data`, err)
+    throw err
+  }
+}
+
+/**
+ * Parse JSON with Map/Set support.
+ *
+ * Usage:
+ * parseData('users-data.json')
+ */
+export function parseDataSync<TStore>(dataPathname: string): TStore {
+  const logger = newLogger('parseDataSync')
 
   try {
     // TODO Use AJV to verify JSON integrity
 
-    return JSON.parse(fs.readFileSync(dataPathname, 'utf8')) as TStore
+    return JSON.parse(fs.readFileSync(dataPathname, 'utf8'), reviver) as TStore
   } catch (err) {
-    logger.error(`Can't parse ${dataPathname}, exiting.`, err)
-    process.exit(1)
+    logger.error(`Unable to parse data`, err)
+    throw err
   }
 }

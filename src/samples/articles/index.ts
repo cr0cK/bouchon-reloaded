@@ -1,5 +1,9 @@
 import * as path from 'path'
-import { createBouchon, getDefaultResponseStatusCode, parseData } from '../..'
+import {
+  createBouchon,
+  getDefaultResponseStatusCode,
+  parseDataSync
+} from '../..'
 import {
   ArticlesActionEnum,
   ArticlesActionsRecord,
@@ -18,7 +22,7 @@ const {
   ArticlesActionEnum,
   ArticlesActionUnion,
   ArticlesActionsRecord
->(parseData(path.join(__dirname, 'articles-data.json')))
+>(parseDataSync(path.join(__dirname, 'articles-data.json')))
 
 export const getArticle = createAction(ArticlesActionEnum.GetArticle)
 const addArticle = createAction(ArticlesActionEnum.AddArticle)
