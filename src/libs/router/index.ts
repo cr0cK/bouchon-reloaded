@@ -1,6 +1,7 @@
 import * as express from 'express'
-import { getDefaultResponseStatusCode, newLogger } from '../..'
 import { isDefined } from '../helpers/collections'
+import { getDefaultResponseStatusCode } from '../helpers/getDefaultResponseStatusCode'
+import { newLogger } from '../helpers/logger'
 import { Action, AnyRoute, EndPoint } from '../types'
 
 const logger = newLogger('Router')
