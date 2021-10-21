@@ -1,10 +1,10 @@
 import * as fs from 'fs'
-import { MockId } from 'index'
-import { ensureArray } from 'libs/helpers'
-import { replacer, reviver } from 'libs/helpers/jsonSerializer'
-import { logger } from 'libs/logger'
-import { IMockIdRelation, Maybe, MaybeUndef } from 'libs/types'
 import { sample, sampleSize } from 'lodash'
+import { ensureArray } from '../libs/helpers'
+import { replacer, reviver } from '../libs/helpers/jsonSerializer'
+import { logger } from '../libs/logger'
+import { MockId } from '../libs/types'
+import { IMockIdRelation, Maybe, MaybeUndef } from '../libs/types'
 import { getMockIdIterator } from './getMockIdIterator'
 import { rangeNumberBetween } from './ramdom'
 
@@ -16,33 +16,36 @@ export interface IMockIdGeneratorFileFormat<TMockEntityName> {
 /**
  * Generate mockId to reference mocked data relations.
  */
-export class MockIdGenerator<
-  TAllMockEntityName extends string[],
-  TMockEntityName extends keyof TAllMockEntityName
-> {
-  allMockIds: IMockIdGeneratorFileFormat<TMockEntityName>['allMockIds'] =
+export class MockIdGenerator<TMockEntityName extends string> {
+  private _entityNames: TMockEntityName[] = []
+
+  private _allMockIds: IMockIdGeneratorFileFormat<TMockEntityName>['allMockIds'] =
     new Map()
 
-  mockIdIterators: Map<TMockEntityName, Iterator<MockId>> = new Map()
+  private _mockIdIterators: Map<TMockEntityName, Iterator<MockId>> = new Map()
 
-  metas: IMockIdGeneratorFileFormat<TMockEntityName>['metas'] = new Map()
+  private _metas: IMockIdGeneratorFileFormat<TMockEntityName>['metas'] =
+    new Map()
+
+  /**
+   * Set entity names that will be used to generate mockIds.
+   */
+  constructor(entityNames: TMockEntityName[]) {
+    this._entityNames = entityNames
+  }
 
   /**
    * Generate a new id for a collection.
    */
-  newMockId(
-    allEntiyName: TAllMockEntityName,
-    forEntity: TMockEntityName,
-    parentMockId?: MockId
-  ): MockId {
-    if (!this.allMockIds.has(forEntity)) {
-      this.allMockIds.set(forEntity, [])
+  newMockId(forEntity: TMockEntityName, parentMockId?: MockId): MockId {
+    if (!this._allMockIds.has(forEntity)) {
+      this._allMockIds.set(forEntity, [])
     }
 
-    if (!this.mockIdIterators.has(forEntity)) {
-      this.mockIdIterators.set(
+    if (!this._mockIdIterators.has(forEntity)) {
+      this._mockIdIterators.set(
         forEntity,
-        getMockIdIterator(allEntiyName, String(forEntity))
+        getMockIdIterator(this._entityNames, String(forEntity))
       )
     }
 
@@ -60,13 +63,12 @@ export class MockIdGenerator<
    * Generate a new list of ids for a collection.
    */
   newListOfMockIds(
-    allEntiyName: TAllMockEntityName,
     forEntity: TMockEntityName,
     rangeValues: MockId[],
     parentMockId?: MockId
   ): MockId[] {
     return rangeNumberBetween(rangeValues).map(() =>
-      this.newMockId(allEntiyName, forEntity, parentMockId)
+      this.newMockId(forEntity, parentMockId)
     )
   }
 
@@ -74,7 +76,7 @@ export class MockIdGenerator<
    * Return the iterator of an entityName.
    */
   getIterator(forEntity: TMockEntityName): Iterator<MockId> {
-    const iterator = this.mockIdIterators.get(forEntity)
+    const iterator = this._mockIdIterators.get(forEntity)
 
     if (!iterator) {
       throw new Error('Cant retrieve iterator')
@@ -154,15 +156,15 @@ export class MockIdGenerator<
     forEntity: TMockEntityName,
     withParentMockId?: MockId
   ): IMockIdRelation[] {
-    if (!this.allMockIds.has(forEntity)) {
-      this.allMockIds.set(forEntity, [])
+    if (!this._allMockIds.has(forEntity)) {
+      this._allMockIds.set(forEntity, [])
     }
 
     if (!withParentMockId) {
-      return ensureArray(this.allMockIds.get(forEntity))
+      return ensureArray(this._allMockIds.get(forEntity))
     }
 
-    return ensureArray(this.allMockIds.get(forEntity)).filter(
+    return ensureArray(this._allMockIds.get(forEntity)).filter(
       entry => entry.parentMockId === withParentMockId
     )
   }
@@ -171,7 +173,7 @@ export class MockIdGenerator<
    * Return a map from meta data.
    */
   getMetaMap<T>(name: string, forEntity: TMockEntityName): Map<string, T> {
-    const map = this.metas.get(name)
+    const map = this._metas.get(name)
 
     if (!map) {
       return new Map()
@@ -217,13 +219,13 @@ export class MockIdGenerator<
    * Save a meta data.
    */
   setMeta<T>(name: string, forEntity: TMockEntityName, id: MockId, meta: T) {
-    const map = this.metas.get(name) || new Map()
+    const map = this._metas.get(name) || new Map()
     const metas = map.get(forEntity) || new Map()
 
     metas.set(String(id), meta)
     map.set(forEntity, metas)
 
-    this.metas.set(name, map)
+    this._metas.set(name, map)
   }
 
   /**
@@ -232,7 +234,7 @@ export class MockIdGenerator<
    * (like the deviance routine in the WS server).
    */
   shift(forEntity: TMockEntityName): MaybeUndef<IMockIdRelation> {
-    const uuids = this.allMockIds.get(forEntity)
+    const uuids = this._allMockIds.get(forEntity)
     if (!uuids) {
       return
     }
@@ -245,8 +247,8 @@ export class MockIdGenerator<
    */
   stringify(): string {
     const fileContent: IMockIdGeneratorFileFormat<TMockEntityName> = {
-      allMockIds: this.allMockIds,
-      metas: this.metas
+      allMockIds: this._allMockIds,
+      metas: this._metas
     }
 
     return JSON.stringify(fileContent, replacer, 2)
@@ -263,8 +265,8 @@ export class MockIdGenerator<
         reviver
       ) as IMockIdGeneratorFileFormat<TMockEntityName>
 
-      this.allMockIds = new Map(parsedContent.allMockIds)
-      this.metas = new Map(parsedContent.metas)
+      this._allMockIds = new Map(parsedContent.allMockIds)
+      this._metas = new Map(parsedContent.metas)
     } catch (err) {
       if (err instanceof Error) {
         logger.error(err)
