@@ -10,8 +10,9 @@ export { bouchonRouter } from './libs/router'
  * Helpers
  */
 
-export { parseData, getNextMockId } from './libs/bouchon/helpers'
-export { getDefaultResponseStatusCode } from './libs/router/helpers'
+export { parseData } from './libs/helpers/parseData'
+export { getNextMockId } from './libs/helpers/getNextMockId'
+export { getDefaultResponseStatusCode } from './libs/helpers/getDefaultResponseStatusCode'
 
 /**
  * Tooling
@@ -28,7 +29,7 @@ export {
   randomValue
 } from './tools/ramdom'
 
-export { newLogger } from './libs/logger'
+export { newLogger } from './libs/helpers/logger'
 
 /**
  * Types
