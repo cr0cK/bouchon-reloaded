@@ -3,6 +3,7 @@ import * as express from 'express'
 /** Helpers */
 
 export type Perhaps<T> = T | null | undefined
+export type MaybeUndef<T> = T | undefined
 export type Maybe<T> = T | null
 
 /** State machine */
@@ -61,6 +62,11 @@ export type EndPoint = {
 }
 
 /** Types helpers */
+
+export interface IMockIdRelation {
+  mockId: MockId
+  parentMockId: MaybeUndef<MockId>
+}
 
 // useful to identify generated items
 export type MockId = number
