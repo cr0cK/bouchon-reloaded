@@ -59,3 +59,8 @@ export type EndPoint = {
   pathname: string
   routes: Array<Route<any, any>>
 }
+
+/** Types helpers */
+
+// useful to identify generated items
+export type MockId = number

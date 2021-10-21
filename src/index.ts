@@ -5,4 +5,4 @@ export { parseData, getNextId } from './libs/bouchon/helpers'
 export { getDefaultResponseStatusCode } from './libs/router/helpers'
 export { newLogger } from './libs/logger'
 
-export type { Action } from './libs/types'
+export type { Action, MockId } from './libs/types'
