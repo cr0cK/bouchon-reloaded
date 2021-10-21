@@ -1,8 +1,8 @@
-import { newLogger } from '../logger'
-import { bouchonRouter } from '../router'
-import { EndPoint } from '../types'
 import * as express from 'express'
 import { Server } from 'http'
+import { newLogger } from '../helpers/logger'
+import { bouchonRouter } from '../router'
+import { EndPoint } from '../types'
 
 const logger = newLogger('Bouchon')
 
