@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`modifiers updateArrayValue should update a value of the map 1`] = `
+"{
+  \\"users\\": [
+    {
+      \\"id\\": 100001,
+      \\"name\\": \\"New Bob\\",
+      \\"email\\": \\"bob@aol.com\\"
+    },
+    {
+      \\"id\\": 100002,
+      \\"name\\": \\"Alice\\",
+      \\"email\\": \\"alice@aol.com\\"
+    }
+  ]
+}"
+`;
+
+exports[`modifiers updateArrayValue shouldnt update a value if the value is not found 1`] = `
+"{
+  \\"users\\": [
+    {
+      \\"id\\": 100001,
+      \\"name\\": \\"Bob\\",
+      \\"email\\": \\"bob@aol.com\\"
+    },
+    {
+      \\"id\\": 100002,
+      \\"name\\": \\"Alice\\",
+      \\"email\\": \\"alice@aol.com\\"
+    }
+  ]
+}"
+`;
+
+exports[`modifiers updateMapValue should update a value of the map 1`] = `
+"{
+  \\"users\\": {
+    \\"dataType\\": \\"Map\\",
+    \\"value\\": [
+      [
+        100001,
+        {
+          \\"name\\": \\"New Bob\\",
+          \\"email\\": \\"bob@aol.com\\"
+        }
+      ],
+      [
+        100002,
+        {
+          \\"name\\": \\"Alice\\",
+          \\"email\\": \\"alice@aol.com\\"
+        }
+      ]
+    ]
+  }
+}"
+`;
+
+exports[`modifiers updateMapValue shouldnt update a value if the value is not found 1`] = `
+"{
+  \\"users\\": {
+    \\"dataType\\": \\"Map\\",
+    \\"value\\": [
+      [
+        100001,
+        {
+          \\"name\\": \\"Bob\\",
+          \\"email\\": \\"bob@aol.com\\"
+        }
+      ],
+      [
+        100002,
+        {
+          \\"name\\": \\"Alice\\",
+          \\"email\\": \\"alice@aol.com\\"
+        }
+      ]
+    ]
+  }
+}"
+`;
