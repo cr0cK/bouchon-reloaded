@@ -1,4 +1,7 @@
 import { merge } from 'lodash'
+import { Maybe, MaybeUndef } from '../types'
+
+type UpdateMapValuePredicateFn<K, V> = ([k, v]: [K, V]) => boolean
 
 /**
  * Update a value of an array.
@@ -22,12 +25,26 @@ export function updateArrayValue<T>(
 /**
  * Update a value of a map.
  */
-export function updateMapValue<K, V>(
+export function updateMapValue<K extends string | number, V>(
   map: Map<K, V>,
-  searchPredicate: ([k, v]: [K, V]) => boolean,
+  keyOrSearchPredicate: K | UpdateMapValuePredicateFn<K, V>,
   value: Partial<V>
 ): Map<K, V> {
-  const entry = Array.from(map.entries()).find(searchPredicate)
+  function getEntry(): MaybeUndef<[K, V]> {
+    if (typeof keyOrSearchPredicate === 'function') {
+      return Array.from(map.entries()).find(keyOrSearchPredicate)
+    }
+
+    const entry = map.get(keyOrSearchPredicate)
+
+    if (!entry) {
+      return
+    }
+
+    return [keyOrSearchPredicate, entry]
+  }
+
+  const entry = getEntry()
 
   if (!entry) {
     return map

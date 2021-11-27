@@ -1,11 +1,6 @@
-import { MockIdGenerator } from '../../../tools/MockIdGenerator'
 import { MockId } from '../../types'
 import { updateArrayValue, updateMapValue } from '../modifiers'
 import { stringifyData } from '../parseData'
-
-enum MockEntity {
-  user = 'user'
-}
 
 interface IUser {
   name: string
@@ -17,19 +12,15 @@ describe('modifiers', () => {
     let store: { users: Array<IUser & { id: number }> }
 
     beforeEach(() => {
-      const mockIdsGenerator = new MockIdGenerator<MockEntity>(
-        Object.values(MockEntity)
-      )
-
       store = {
         users: [
           {
-            id: mockIdsGenerator.newMockId(MockEntity.user),
+            id: 1,
             name: 'Bob',
             email: 'bob@aol.com'
           },
           {
-            id: mockIdsGenerator.newMockId(MockEntity.user),
+            id: 2,
             name: 'Alice',
             email: 'alice@aol.com'
           }
@@ -64,21 +55,17 @@ describe('modifiers', () => {
     let store: { users: Map<MockId, IUser> }
 
     beforeEach(() => {
-      const mockIdsGenerator = new MockIdGenerator<MockEntity>(
-        Object.values(MockEntity)
-      )
-
       store = {
         users: new Map([
           [
-            mockIdsGenerator.newMockId(MockEntity.user),
+            1,
             {
               name: 'Bob',
               email: 'bob@aol.com'
             }
           ],
           [
-            mockIdsGenerator.newMockId(MockEntity.user),
+            2,
             {
               name: 'Alice',
               email: 'alice@aol.com'
@@ -88,7 +75,7 @@ describe('modifiers', () => {
       }
     })
 
-    it('should update a value of the map', () => {
+    it('should update a value of the map with a predicate fn', () => {
       const searchedEmail = 'bob@aol.com'
 
       updateMapValue(
@@ -98,6 +85,15 @@ describe('modifiers', () => {
           name: 'New Bob'
         }
       )
+
+      const str = stringifyData(store)
+      expect(str).toMatchSnapshot()
+    })
+
+    it('should update a value of the map with a defined key', () => {
+      updateMapValue(store.users, 1, {
+        name: 'New Bob'
+      })
 
       const str = stringifyData(store)
       expect(str).toMatchSnapshot()
@@ -113,6 +109,10 @@ describe('modifiers', () => {
           name: 'New Bob'
         }
       )
+
+      updateMapValue(store.users, -1, {
+        name: 'New Bob'
+      })
 
       const str = stringifyData(store)
       expect(str).toMatchSnapshot()
