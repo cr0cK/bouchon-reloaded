@@ -13,6 +13,7 @@ export { bouchonRouter } from './libs/router'
 export { stringifyData, parseDataSync } from './libs/helpers/parseData'
 export { getNextMockId } from './libs/helpers/getNextMockId'
 export { getDefaultResponseStatusCode } from './libs/helpers/getDefaultResponseStatusCode'
+export { updateArrayValue, updateMapValue } from './libs/helpers/modifiers'
 
 /**
  * Tooling
