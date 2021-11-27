@@ -1,5 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`modifiers deleteMapValue should delete a value of the map with a defined key 1`] = `
+"{
+  \\"users\\": {
+    \\"dataType\\": \\"Map\\",
+    \\"value\\": [
+      [
+        2,
+        {
+          \\"name\\": \\"Alice\\",
+          \\"email\\": \\"alice@aol.com\\"
+        }
+      ]
+    ]
+  }
+}"
+`;
+
+exports[`modifiers deleteMapValue should delete a value of the map with a predicate fn 1`] = `
+"{
+  \\"users\\": {
+    \\"dataType\\": \\"Map\\",
+    \\"value\\": [
+      [
+        2,
+        {
+          \\"name\\": \\"Alice\\",
+          \\"email\\": \\"alice@aol.com\\"
+        }
+      ]
+    ]
+  }
+}"
+`;
+
 exports[`modifiers updateArrayValue should update a value of the map 1`] = `
 "{
   \\"users\\": [

@@ -30,21 +30,7 @@ export function updateMapValue<K extends string | number, V>(
   keyOrSearchPredicate: K | UpdateMapValuePredicateFn<K, V>,
   value: Partial<V>
 ): Map<K, V> {
-  function getEntry(): MaybeUndef<[K, V]> {
-    if (typeof keyOrSearchPredicate === 'function') {
-      return Array.from(map.entries()).find(keyOrSearchPredicate)
-    }
-
-    const entry = map.get(keyOrSearchPredicate)
-
-    if (!entry) {
-      return
-    }
-
-    return [keyOrSearchPredicate, entry]
-  }
-
-  const entry = getEntry()
+  const entry = _getEntry(map, keyOrSearchPredicate)
 
   if (!entry) {
     return map
@@ -55,4 +41,41 @@ export function updateMapValue<K extends string | number, V>(
   map.set(entryKey, merge(entryValue, value))
 
   return map
+}
+
+/**
+ * Delete a value from a map.
+ */
+export function deleteMapValue<K extends string | number, V>(
+  map: Map<K, V>,
+  keyOrSearchPredicate: K | UpdateMapValuePredicateFn<K, V>
+): Map<K, V> {
+  const entry = _getEntry(map, keyOrSearchPredicate)
+
+  if (!entry) {
+    return map
+  }
+
+  const [entryKey] = entry
+
+  map.delete(entryKey)
+
+  return map
+}
+
+function _getEntry<K extends string | number, V>(
+  map: Map<K, V>,
+  keyOrSearchPredicate: K | UpdateMapValuePredicateFn<K, V>
+): MaybeUndef<[K, V]> {
+  if (typeof keyOrSearchPredicate === 'function') {
+    return Array.from(map.entries()).find(keyOrSearchPredicate)
+  }
+
+  const entry = map.get(keyOrSearchPredicate)
+
+  if (!entry) {
+    return
+  }
+
+  return [keyOrSearchPredicate, entry]
 }
