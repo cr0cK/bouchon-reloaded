@@ -4,12 +4,12 @@ exports[`modifiers updateArrayValue should update a value of the map 1`] = `
 "{
   \\"users\\": [
     {
-      \\"id\\": 100001,
+      \\"id\\": 1,
       \\"name\\": \\"New Bob\\",
       \\"email\\": \\"bob@aol.com\\"
     },
     {
-      \\"id\\": 100002,
+      \\"id\\": 2,
       \\"name\\": \\"Alice\\",
       \\"email\\": \\"alice@aol.com\\"
     }
@@ -21,12 +21,12 @@ exports[`modifiers updateArrayValue shouldnt update a value if the value is not 
 "{
   \\"users\\": [
     {
-      \\"id\\": 100001,
+      \\"id\\": 1,
       \\"name\\": \\"Bob\\",
       \\"email\\": \\"bob@aol.com\\"
     },
     {
-      \\"id\\": 100002,
+      \\"id\\": 2,
       \\"name\\": \\"Alice\\",
       \\"email\\": \\"alice@aol.com\\"
     }
@@ -34,20 +34,44 @@ exports[`modifiers updateArrayValue shouldnt update a value if the value is not 
 }"
 `;
 
-exports[`modifiers updateMapValue should update a value of the map 1`] = `
+exports[`modifiers updateMapValue should update a value of the map with a defined key 1`] = `
 "{
   \\"users\\": {
     \\"dataType\\": \\"Map\\",
     \\"value\\": [
       [
-        100001,
+        1,
         {
           \\"name\\": \\"New Bob\\",
           \\"email\\": \\"bob@aol.com\\"
         }
       ],
       [
-        100002,
+        2,
+        {
+          \\"name\\": \\"Alice\\",
+          \\"email\\": \\"alice@aol.com\\"
+        }
+      ]
+    ]
+  }
+}"
+`;
+
+exports[`modifiers updateMapValue should update a value of the map with a predicate fn 1`] = `
+"{
+  \\"users\\": {
+    \\"dataType\\": \\"Map\\",
+    \\"value\\": [
+      [
+        1,
+        {
+          \\"name\\": \\"New Bob\\",
+          \\"email\\": \\"bob@aol.com\\"
+        }
+      ],
+      [
+        2,
         {
           \\"name\\": \\"Alice\\",
           \\"email\\": \\"alice@aol.com\\"
@@ -64,14 +88,14 @@ exports[`modifiers updateMapValue shouldnt update a value if the value is not fo
     \\"dataType\\": \\"Map\\",
     \\"value\\": [
       [
-        100001,
+        1,
         {
           \\"name\\": \\"Bob\\",
           \\"email\\": \\"bob@aol.com\\"
         }
       ],
       [
-        100002,
+        2,
         {
           \\"name\\": \\"Alice\\",
           \\"email\\": \\"alice@aol.com\\"
