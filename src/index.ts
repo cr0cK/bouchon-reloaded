@@ -41,3 +41,4 @@ export { newLogger } from './libs/helpers/logger'
  */
 
 export type { Action, MockId } from './libs/types'
+export type { IDeepMergeOption } from './libs/helpers/deepMerge'

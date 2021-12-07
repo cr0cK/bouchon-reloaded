@@ -1,5 +1,5 @@
-import { merge } from 'lodash'
-import { Maybe, MaybeUndef } from '../types'
+import { MaybeUndef } from '../types'
+import { deepMerge, IDeepMergeOption } from './deepMerge'
 
 type UpdateMapValuePredicateFn<K, V> = ([k, v]: [K, V]) => boolean
 
@@ -9,7 +9,8 @@ type UpdateMapValuePredicateFn<K, V> = ([k, v]: [K, V]) => boolean
 export function updateArrayValue<T>(
   array: T[],
   searchPredicate: (value: T) => boolean,
-  value: Partial<T>
+  value: Partial<T>,
+  options?: IDeepMergeOption
 ): T[] {
   const index = array.findIndex(searchPredicate)
 
@@ -17,7 +18,7 @@ export function updateArrayValue<T>(
     return array
   }
 
-  array.splice(index, 1, merge(array[index], value))
+  array.splice(index, 1, deepMerge(array[index], value, options))
 
   return array
 }
@@ -28,7 +29,8 @@ export function updateArrayValue<T>(
 export function updateMapValue<K extends string | number, V>(
   map: Map<K, V>,
   keyOrSearchPredicate: K | UpdateMapValuePredicateFn<K, V>,
-  value: Partial<V>
+  value: Partial<V>,
+  options?: IDeepMergeOption
 ): Map<K, V> {
   const entry = _getEntry(map, keyOrSearchPredicate)
 
@@ -38,7 +40,7 @@ export function updateMapValue<K extends string | number, V>(
 
   const [entryKey, entryValue] = entry
 
-  map.set(entryKey, merge(entryValue, value))
+  map.set(entryKey, deepMerge(entryValue, value, options))
 
   return map
 }
