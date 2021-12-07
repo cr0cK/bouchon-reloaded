@@ -9,7 +9,10 @@ exports[`modifiers deleteMapValue should delete a value of the map with a define
         2,
         {
           \\"name\\": \\"Alice\\",
-          \\"email\\": \\"alice@aol.com\\"
+          \\"email\\": \\"alice@aol.com\\",
+          \\"roles\\": [
+            \\"user\\"
+          ]
         }
       ]
     ]
@@ -26,11 +29,37 @@ exports[`modifiers deleteMapValue should delete a value of the map with a predic
         2,
         {
           \\"name\\": \\"Alice\\",
-          \\"email\\": \\"alice@aol.com\\"
+          \\"email\\": \\"alice@aol.com\\",
+          \\"roles\\": [
+            \\"user\\"
+          ]
         }
       ]
     ]
   }
+}"
+`;
+
+exports[`modifiers updateArrayValue should not update a value if the value is not found 1`] = `
+"{
+  \\"users\\": [
+    {
+      \\"id\\": 1,
+      \\"name\\": \\"Bob\\",
+      \\"email\\": \\"bob@aol.com\\",
+      \\"roles\\": [
+        \\"user\\"
+      ]
+    },
+    {
+      \\"id\\": 2,
+      \\"name\\": \\"Alice\\",
+      \\"email\\": \\"alice@aol.com\\",
+      \\"roles\\": [
+        \\"user\\"
+      ]
+    }
+  ]
 }"
 `;
 
@@ -40,83 +69,24 @@ exports[`modifiers updateArrayValue should update a value of the map 1`] = `
     {
       \\"id\\": 1,
       \\"name\\": \\"New Bob\\",
-      \\"email\\": \\"bob@aol.com\\"
+      \\"email\\": \\"bob@aol.com\\",
+      \\"roles\\": [
+        \\"user\\"
+      ]
     },
     {
       \\"id\\": 2,
       \\"name\\": \\"Alice\\",
-      \\"email\\": \\"alice@aol.com\\"
+      \\"email\\": \\"alice@aol.com\\",
+      \\"roles\\": [
+        \\"user\\"
+      ]
     }
   ]
 }"
 `;
 
-exports[`modifiers updateArrayValue shouldnt update a value if the value is not found 1`] = `
-"{
-  \\"users\\": [
-    {
-      \\"id\\": 1,
-      \\"name\\": \\"Bob\\",
-      \\"email\\": \\"bob@aol.com\\"
-    },
-    {
-      \\"id\\": 2,
-      \\"name\\": \\"Alice\\",
-      \\"email\\": \\"alice@aol.com\\"
-    }
-  ]
-}"
-`;
-
-exports[`modifiers updateMapValue should update a value of the map with a defined key 1`] = `
-"{
-  \\"users\\": {
-    \\"dataType\\": \\"Map\\",
-    \\"value\\": [
-      [
-        1,
-        {
-          \\"name\\": \\"New Bob\\",
-          \\"email\\": \\"bob@aol.com\\"
-        }
-      ],
-      [
-        2,
-        {
-          \\"name\\": \\"Alice\\",
-          \\"email\\": \\"alice@aol.com\\"
-        }
-      ]
-    ]
-  }
-}"
-`;
-
-exports[`modifiers updateMapValue should update a value of the map with a predicate fn 1`] = `
-"{
-  \\"users\\": {
-    \\"dataType\\": \\"Map\\",
-    \\"value\\": [
-      [
-        1,
-        {
-          \\"name\\": \\"New Bob\\",
-          \\"email\\": \\"bob@aol.com\\"
-        }
-      ],
-      [
-        2,
-        {
-          \\"name\\": \\"Alice\\",
-          \\"email\\": \\"alice@aol.com\\"
-        }
-      ]
-    ]
-  }
-}"
-`;
-
-exports[`modifiers updateMapValue shouldnt update a value if the value is not found 1`] = `
+exports[`modifiers updateMapValue with a defined key should not update a value if the value is not found 1`] = `
 "{
   \\"users\\": {
     \\"dataType\\": \\"Map\\",
@@ -125,14 +95,141 @@ exports[`modifiers updateMapValue shouldnt update a value if the value is not fo
         1,
         {
           \\"name\\": \\"Bob\\",
-          \\"email\\": \\"bob@aol.com\\"
+          \\"email\\": \\"bob@aol.com\\",
+          \\"roles\\": [
+            \\"user\\"
+          ]
         }
       ],
       [
         2,
         {
           \\"name\\": \\"Alice\\",
-          \\"email\\": \\"alice@aol.com\\"
+          \\"email\\": \\"alice@aol.com\\",
+          \\"roles\\": [
+            \\"user\\"
+          ]
+        }
+      ]
+    ]
+  }
+}"
+`;
+
+exports[`modifiers updateMapValue with a defined key should update a value of the map 1`] = `
+"{
+  \\"users\\": {
+    \\"dataType\\": \\"Map\\",
+    \\"value\\": [
+      [
+        1,
+        {
+          \\"name\\": \\"New Bob\\",
+          \\"email\\": \\"bob@aol.com\\",
+          \\"roles\\": [
+            \\"user\\"
+          ]
+        }
+      ],
+      [
+        2,
+        {
+          \\"name\\": \\"Alice\\",
+          \\"email\\": \\"alice@aol.com\\",
+          \\"roles\\": [
+            \\"user\\"
+          ]
+        }
+      ]
+    ]
+  }
+}"
+`;
+
+exports[`modifiers updateMapValue with a defined key should update list values by concatenation 1`] = `
+"{
+  \\"users\\": {
+    \\"dataType\\": \\"Map\\",
+    \\"value\\": [
+      [
+        1,
+        {
+          \\"name\\": \\"New Bob\\",
+          \\"email\\": \\"bob@aol.com\\",
+          \\"roles\\": [
+            \\"user\\",
+            \\"admin\\"
+          ]
+        }
+      ],
+      [
+        2,
+        {
+          \\"name\\": \\"Alice\\",
+          \\"email\\": \\"alice@aol.com\\",
+          \\"roles\\": [
+            \\"user\\"
+          ]
+        }
+      ]
+    ]
+  }
+}"
+`;
+
+exports[`modifiers updateMapValue with a defined key should update list values by overriding 1`] = `
+"{
+  \\"users\\": {
+    \\"dataType\\": \\"Map\\",
+    \\"value\\": [
+      [
+        1,
+        {
+          \\"name\\": \\"New Bob\\",
+          \\"email\\": \\"bob@aol.com\\",
+          \\"roles\\": [
+            \\"admin\\"
+          ]
+        }
+      ],
+      [
+        2,
+        {
+          \\"name\\": \\"Alice\\",
+          \\"email\\": \\"alice@aol.com\\",
+          \\"roles\\": [
+            \\"user\\"
+          ]
+        }
+      ]
+    ]
+  }
+}"
+`;
+
+exports[`modifiers updateMapValue with a predicate fn should update a value of the map 1`] = `
+"{
+  \\"users\\": {
+    \\"dataType\\": \\"Map\\",
+    \\"value\\": [
+      [
+        1,
+        {
+          \\"name\\": \\"New Bob\\",
+          \\"email\\": \\"bob@aol.com\\",
+          \\"roles\\": [
+            \\"user\\"
+          ]
+        }
+      ],
+      [
+        2,
+        {
+          \\"name\\": \\"Alice\\",
+          \\"email\\": \\"alice@aol.com\\",
+          \\"roles\\": [
+            \\"user\\"
+          ]
         }
       ]
     ]
