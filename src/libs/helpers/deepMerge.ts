@@ -19,6 +19,10 @@ export function deepMerge<T1, T2>(
 
   const res = mergeWith(obj1, obj2, (v1, v2) => {
     if (!options.concatArrays) {
+      if (Array.isArray(v1) || Array.isArray(v2)) {
+        return v2 || v1
+      }
+
       return undefined
     }
 
