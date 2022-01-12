@@ -27,10 +27,10 @@ export class Store<
     return this
   }
 
-  dispatch<AE extends keyof TActionsRecord>(
+  async dispatch<AE extends keyof TActionsRecord>(
     actionName: AE,
     action: TActionsRecord[AE]
-  ): this {
+  ): Promise<this> {
     const reducer = this._reducers.get(actionName)
 
     if (!reducer) {
@@ -40,7 +40,7 @@ export class Store<
 
     logger.debug(`Dispatching action "${actionName}"`)
 
-    this._state = reducer(this._state, action)
+    this._state = await reducer(this._state, action)
 
     return this
   }

@@ -27,12 +27,12 @@ describe('Store', () => {
       ])
     })
 
-    it('should update state when an action is dispatched', () => {
+    it('should update state when an action is dispatched', async () => {
       store.registerReducer('AddUser', (state, action) => {
         return state.concat(action)
       })
 
-      store.dispatch('AddUser', { id: 3, name: 'John' })
+      await store.dispatch('AddUser', { id: 3, name: 'John' })
 
       expect(store.getState()).toEqual([
         { id: 1, name: 'Bob' },
@@ -41,8 +41,8 @@ describe('Store', () => {
       ])
     })
 
-    it('shouldnt update anything if no reducer has been registered for the dispatched action', () => {
-      store.dispatch('AddUser', { id: 3, name: 'John' })
+    it('shouldnt update anything if no reducer has been registered for the dispatched action', async () => {
+      await store.dispatch('AddUser', { id: 3, name: 'John' })
 
       expect(store.getState()).toEqual([
         { id: 1, name: 'Bob' },

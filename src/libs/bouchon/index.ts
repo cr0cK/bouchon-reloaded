@@ -20,8 +20,11 @@ export function createBouchon<
     createAction<TActionName extends keyof TActionsRecord>(
       actionName: TActionName
     ): ActionFn<TActionsRecord[TActionName]> {
-      const actionFn = function (action: TActionsRecord[TActionName]): void {
+      const actionFn = function (
+        action: TActionsRecord[TActionName]
+      ): Promise<void> {
         store.dispatch(actionName, action)
+        return Promise.resolve()
       }
 
       // name the action function
