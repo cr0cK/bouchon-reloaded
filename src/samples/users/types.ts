@@ -15,6 +15,9 @@ export interface GetUserAction extends Action {
   parameters: {
     userId: number
   }
+  queryParameters?: {
+    limit?: number
+  }
 }
 
 export interface AddUserAction extends Action {

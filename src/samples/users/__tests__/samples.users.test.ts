@@ -33,6 +33,13 @@ describe('Users samples', () => {
     ])
   })
 
+  it('should retrieve 1 users', async () => {
+    const users = await fetch(`http://${host}:${port}/api/users?limit=1`)
+    const json = await users.json()
+
+    expect(json).toEqual([{ id: 1, name: 'John' }])
+  })
+
   it('should add a user', async () => {
     await fetch(`http://${host}:${port}/api/users`, {
       method: 'post',

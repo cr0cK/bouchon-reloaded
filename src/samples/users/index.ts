@@ -39,7 +39,14 @@ registerReducer(UsersActionEnum.RemoveUser, (state, action) => {
 })
 
 const selectAllUsers = createSelector((state, action) => {
-  return state.users
+  switch (action.name) {
+    case UsersActionEnum.GetUser: {
+      return state.users.slice(0, action.queryParameters?.limit)
+    }
+
+    default:
+      return state.users
+  }
 })
 
 const selectOneUser = createSelector((state, action) => {

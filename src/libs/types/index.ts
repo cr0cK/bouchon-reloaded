@@ -15,6 +15,7 @@ export interface Action {
   parameters?: object
   bodyParameters?: object
   headerParameters?: object
+  queryParameters?: object
 }
 
 export type ActionFn<A> = (action: A) => void
