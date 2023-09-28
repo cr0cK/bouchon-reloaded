@@ -10,7 +10,7 @@
     "start": "node --inspect -r ts-node/register -r tsconfig-paths/register src/samples/index.ts | bunyan",
     "dev": "nodemon -w src -e ts -x \"npm run start\"",
     "lint": "eslint .",
-    "check": "tsc --noEmit",
+    "check:code": "tsc --noEmit",
     "build": "shx rm -rf dist && shx mkdir dist && tsc",
     "test": "LOG_LEVEL=warn jest",
     "prepublishOnly": "npm t && npm run build"
