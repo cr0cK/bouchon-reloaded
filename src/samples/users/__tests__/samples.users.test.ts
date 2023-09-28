@@ -34,7 +34,9 @@ describe('Users samples', () => {
   })
 
   it('should retrieve 1 users', async () => {
-    const users = await fetch(`http://${host}:${port}/api/users?limit=1`)
+    const users = await fetch(
+      `http://${host}:${port}/api/users?limit=1&foo=str`
+    )
     const json = await users.json()
 
     expect(json).toEqual([{ id: 1, name: 'John' }])

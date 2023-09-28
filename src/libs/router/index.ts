@@ -47,7 +47,7 @@ function handleRoute(route: AnyRoute) {
       parameters: castRouteParameters(req.params),
       bodyParameters: req.body,
       headerParameters: req.headers,
-      queryParameters: req.query
+      queryParameters: castRouteParameters(req.query)
     }
 
     dispatchRouteAction(route, action)(/* req, res */)
@@ -135,7 +135,7 @@ function getRouteMethodFn(
 /**
  * Cast route parameters that look like as numbers as numbers.
  */
-function castRouteParameters<T>(parameters: T): T {
+function castRouteParameters<T extends object>(parameters: T): T {
   return Object.entries(parameters).reduce((acc, [key, value]) => {
     if (!isDefined(value)) {
       return acc
