@@ -135,7 +135,7 @@ function getRouteMethodFn(
 /**
  * Cast route parameters that look like as numbers as numbers.
  */
-function castRouteParameters<T>(parameters: T): T {
+function castRouteParameters<T extends object>(parameters: T): T {
   return Object.entries(parameters).reduce((acc, [key, value]) => {
     if (!isDefined(value)) {
       return acc

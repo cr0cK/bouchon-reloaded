@@ -2,21 +2,21 @@
 
 exports[`parseData stringifyData should stringify data 1`] = `
 "{
-  \\"users\\": {
-    \\"dataType\\": \\"Map\\",
-    \\"value\\": [
+  "users": {
+    "dataType": "Map",
+    "value": [
       [
         100001,
         {
-          \\"name\\": \\"Bob\\",
-          \\"email\\": \\"bob@aol.com\\"
+          "name": "Bob",
+          "email": "bob@aol.com"
         }
       ],
       [
         100002,
         {
-          \\"name\\": \\"Alice\\",
-          \\"email\\": \\"alice@aol.com\\"
+          "name": "Alice",
+          "email": "alice@aol.com"
         }
       ]
     ]

@@ -34,11 +34,11 @@ export class Store<
     const reducer = this._reducers.get(actionName)
 
     if (!reducer) {
-      logger.debug(`No reducer found for action "${actionName}"`)
+      logger.debug(`No reducer found for action "${String(actionName)}"`)
       return this
     }
 
-    logger.debug(`Dispatching action "${actionName}"`)
+    logger.debug(`Dispatching action "${String(actionName)}"`)
 
     this._state = reducer(this._state, action)
 
