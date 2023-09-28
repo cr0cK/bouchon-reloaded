@@ -47,7 +47,7 @@ function handleRoute(route: AnyRoute) {
       parameters: castRouteParameters(req.params),
       bodyParameters: req.body,
       headerParameters: req.headers,
-      queryParameters: req.query
+      queryParameters: castRouteParameters(req.query)
     }
 
     dispatchRouteAction(route, action)(/* req, res */)
